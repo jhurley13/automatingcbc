@@ -10,8 +10,10 @@ data_path = base_path / 'data'
 cache_path = base_path / 'cache'
 
 # Can Override
-local_parameters_path = base_path / 'parameters'
-system_parameters_path = base_path / 'parameters' / 'SystemParameters'
+local_parameters_path = base_path / 'parameters' / 'Local'
+system_parameters_path = base_path / 'parameters' / 'System'
+
+kml_path = local_parameters_path / 'KML'
 
 system_translations_path = system_parameters_path
 system_translations_name_base = 'SystemTranslations'

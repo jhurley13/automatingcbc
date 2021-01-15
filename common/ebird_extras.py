@@ -128,7 +128,6 @@ class EBirdExtra(object):
             api_url_base = 'https://api.ebird.org/v2/product/lists'
             api_auth_header = {'X-eBirdApiToken': self.__ebird_api_key}
             url = f'{api_url_base}/{region_code}/{oxdate.year}/{oxdate.month}/{oxdate.day}'
-            xparams = None  # { 'maxResults' : 200}
             xparams = {'maxResults': 200}
 
             rr = requests.get(url, params=xparams,
@@ -423,7 +422,15 @@ class EBirdExtra(object):
             if not details_path.exists():
                 detailed_checklists = []
                 for subid in subids:
-                    checklist = pd.DataFrame(self.get_checklist(subid))
+                    cdict = self.get_checklist(subid)
+                    # if cdict is None:
+                    #     continue
+                    # print(subid, cdict)
+                    # Birdathon iOS version 1.4.1 adds the subAux field, which breaks
+                    # turning this into a dataframe directly
+                    if 'subAux' in cdict.keys():
+                        del cdict['subAux']
+                    checklist = pd.DataFrame(cdict)
                     # Not every checklist has groupId, so add if not there
                     # We need it later for detecting duplicate checklists (e.g. shared)
                     if 'groupId' not in checklist.columns:
