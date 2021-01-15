@@ -1,0 +1,258 @@
+Dark-eyed (Slate-colored) Junco
+Red-tailed (Harlan's) Hawk
+Yellow-rumped (Audubon's)
+Yellow-rumped (Myrtle)
+accipiter, sp
+aechmophorus, sp
+blackbird, sp
+falcon, sp
+gull, sp
+scaup, sp
+swallow, sp
+zonotrichia, sp
+N. (Yellow-shafted) Flicker
+N. Yellow-sh x Red-sh) Flicker
+.
+ADDITIONAL SPECIES - please document
+Acorn Woodpecker
+American Avocet
+American Bittern
+American Coot
+American Crow
+American Dipper
+American Goldfinch
+American Kestrel
+American Pipit
+American Redstart
+American Robin
+American White Pelican
+American Wigeon
+Anna's Hummingbird
+BITTERN / HERONS / EGRETS
+BLACKBIRDS (ICTERIDS)
+Bald Eagle              ad:            imm:
+Band-tailed {Pigeon
+Barn Owl
+Barn Swallow
+Barrow's Goldeneye
+Bell's Sparrow
+Belted Kingfisher
+Bewick's Wren
+Black Phoebe
+Black-crowned Night-Heron
+Black-headed Grosbeak
+Black-necked Stilt
+Black-throated Gray Warbler
+Blue-gray Gnatcatcher
+Blue-winged Teal
+Bold-face = need Rare Bird Documentation
+Bonaparte's Gull
+Brewer's Blackbird
+Brown Creeper
+Brown Pelican
+Brown-headed Cowbird
+Bufflehead
+Burrowing Owl
+Bushtit
+CORVIDS
+Cackling Goose
+Calero-Morgan Hill CBC - Check List
+California Gull
+California Quail
+California Scrub-Jay
+California Thrasher
+California Towhee
+Canada Goose
+Canvasback
+Canyon Wren
+Cedar Waxwing
+Chestnut-backed Chickadee
+Chipping Sparrow
+Cinnamon Teal
+Clark's Grebe
+Common Gallinule
+Common Goldeneye
+Common Loon
+Common Merganser
+Common Raven
+Common Yellowthroat
+Cooper's Hawk
+DIPPER
+DIURNAL BIRDS OF PREY
+Dark-eyed (Oregon) Junco
+Double-crested Cormorant
+Downy Woodpecker
+Dunlin
+Eared Grebe
+Eastern Phoebe
+Eurasian Collared-Dove
+European Starling
+FINCHES
+FLYCATCHERS / SHRIKES / VIREOS
+Ferruginous Hawk
+Forster's Tern
+Fox Sparrow
+GAME BIRDS / QUAIL
+GEESE / DUCKS
+GNATCATCHER
+GREBES / PELICANS / CORMORANTS
+GROSBEAK
+GULLS / TERNS
+Gadwall
+Glaucous Gull
+Glaucous-winged Gull
+Golden Eagle           ad:           imm:
+Golden-crowned Kinglet
+Golden-crowned Sparrow
+Grasshopper Sparrow
+Great Blue Heron
+Great Egret
+Great Horned Owl
+Great-tailed Grackle
+Greater Roadrunner
+Greater Scaup
+Greater White-fronted Goose
+Greater Yellowlegs
+Green Heron
+Green-winged Teal
+HOUSE SPARROW / EXOTICS
+Hairy Woodpecker
+Hermit Thrush
+Hermit Warbler
+Herring Gull
+Hooded Merganser
+Horned Grebe
+Horned Lark
+House Finch
+House Sparrow
+House Wren
+Hutton's Vireo
+Iceland Gull
+KINGFISHER
+KINGLETS
+Killdeer
+LARKS
+LOONS
+Lark Sparrow
+Least Sandpiper
+Lesser Goldfinch
+Lesser Scaup
+Lewis's Woodpecker
+Lincoln's Sparrow
+Loggerhead Shrike
+Long-billed Curlew
+Long-billed Dowitcher
+Mallard
+Marsh Wren
+Merlin
+Mew Gull
+Mourning Dove
+N. Rough-winged Swallow
+Northern Flicker
+Northern Harrier
+Northern Mockingbird
+Northern Pintail
+Northern Pygmy-Owl
+Northern Saw-Whet Owl
+Northern Shoveler
+Nutmeg Mannikin
+Nuttall's Woodpecker
+OWLS
+Oak Titmouse
+Orange-crowned Warbler
+Osprey
+PIGEONS / DOVES
+PIPIT
+Pacific Loon
+Pacific Wren
+Palm Warbler
+Peregrine Falcon
+Pied-billed Grebe
+Pine Siskin
+Prairie Falcon
+Purple Finch
+RAILS / GALLINULE / COOT
+ROADRUNNER
+Red-breasted Merganser
+Red-breasted Nuthatch
+Red-breasted Sapsucker
+Red-naped Sapsucker
+Red-necked Grebe
+Red-shouldered Hawk
+Red-tailed Hawk
+Red-throated Loon
+Red-winged Blackbird
+Redhead
+Ring-billed Gull
+Ring-necked Duck
+Ring-necked Pheasant
+Rock Pigeon
+Rock Wren
+Ross's Goose
+Ruby-crowned Kinglet
+Ruddy Duck
+Rufous-crowned Sparrow
+SHOREBIRDS
+SMALL WOODLAND BIRDS
+STARLING
+SWALLOWS
+SWIFTS / HUMMINGBIRDS
+Savannah Sparrow
+Say's Phoebe
+Sharp-shinned Hawk
+Short-eared Owl
+Snow Goose
+Snowy Egret
+Solitary Sandpiper
+Song Sparrow
+Sora
+Spotted Sandpiper
+Spotted Towhee
+Steller's Jay
+Surf Scoter
+TANAGERS
+THRUSHES
+TOWHEES / SPARROWS
+Townsend's Solitaire
+Townsend's Warbler
+Tree Swallow
+Tricolored Blackbird
+Turkey Vulture
+VULTURES
+Varied Thrush
+Violet-green Swallow
+Virginia Rail
+WARBLERS
+WAXWING
+WOODPECKERS
+WRENS
+WRENTIT / MIMICS
+Western Bluebird
+Western Grebe
+Western Gull
+Western Meadowlark
+Western Sandpiper
+Western Screech-Owl
+Western Tanager
+White-breasted Nuthatch
+White-crowned Sparrow
+White-tailed Kite
+White-throated Sparrow
+White-throated Swift
+Wild Turkey
+Wilson's Snipe
+Wood Duck
+Wrentit
+Yellow Warbler
+Yellow-bellied Sapsucker
+Yellow-billed Magpie
+Yellow-rumped Warbler (form)
+
+
+Passeriformes
+Tanagers and Allies
+Thraupidae
+Icteridae
+Troupials and Allies
+Crows, Jays, and Magpies
+Corvidae

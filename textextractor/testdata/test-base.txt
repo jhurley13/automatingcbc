@@ -1,0 +1,750 @@
+TINAMIFORMES: Tinamidae
+Great Tinamou
+Little Tinamou
+Thicket Tinamou
+Slaty-breasted Tinamou
+
+ANSERIFORMES: Anatidae
+Black-bellied Whistling-Duck
+Fulvous Whistling-Duck
+Snow Goose
+Greater White-fronted Goose
+Canada Goose
+Muscovy Duck
+Blue-winged Teal
+Cinnamon Teal
+Northern Shoveler
+Gadwall
+American Wigeon
+Mallard
+Northern Pintail
+Green-winged Teal
+Redhead
+Ring-necked Duck
+Greater Scaup
+Lesser Scaup
+Hooded Merganser
+Red-breasted Merganser
+Masked Duck
+Ruddy Duck
+
+GALLIFORMES: Cracidae
+Plain Chachalaca
+Crested Guan
+Great Curassow
+
+GALLIFORMES: Odontophoridae
+Black-throated Bobwhite
+Singing Quail
+Spotted Wood-Quail
+
+GALLIFORMES: Phasianidae
+Ocellated Turkey
+
+PHOENICOPTERIFORMES: Phoenicopteridae
+American Flamingo
+
+PODICIPEDIFORMES: Podicipedidae
+Least Grebe
+Pied-billed Grebe
+
+COLUMBIFORMES: Columbidae
+Rock Pigeon
+Pale-vented Pigeon
+Scaled Pigeon
+White-crowned Pigeon
+Red-billed Pigeon
+Short-billed Pigeon
+Eurasian Collared-Dove
+Inca Dove
+Common Ground-Dove
+Plain-breasted Ground-Dove
+Ruddy Ground-Dove
+Blue Ground-Dove
+Ruddy Quail-Dove
+White-tipped Dove
+Caribbean Dove
+Gray-chested Dove
+Gray-headed Dove
+White-winged Dove
+Mourning Dove
+
+CUCULIFORMES: Cuculidae
+Squirrel Cuckoo
+Yellow-billed Cuckoo
+Mangrove Cuckoo
+Black-billed Cuckoo
+Striped Cuckoo
+Pheasant Cuckoo
+Smooth-billed Ani
+Groove-billed Ani
+
+CAPRIMULGIFORMES: Caprimulgidae
+Short-tailed Nighthawk
+Lesser Nighthawk
+Common Nighthawk
+Common Pauraque
+Yucatan Poorwill
+Chuck-will's-widow
+Yucatan Nightjar
+Eastern Whip-poor-will
+
+NYCTIBIIFORMES: Nyctibiidae
+Great Potoo
+Northern Potoo
+
+APODIFORMES: Apodidae
+Black Swift
+White-chinned Swift
+Chestnut-collared Swift
+White-collared Swift
+Chimney Swift
+Vaux's Swift
+Lesser Swallow-tailed Swift
+
+APODIFORMES: Trochilidae
+White-necked Jacobin
+Band-tailed Barbthroat
+Long-billed Hermit
+Stripe-throated Hermit
+Brown Violetear
+Purple-crowned Fairy
+Green-breasted Mango
+Black-crested Coquette
+Long-billed Starthroat
+Ruby-throated Hummingbird
+Canivet's Emerald
+Violet-headed Hummingbird
+Scaly-breasted Hummingbird
+Wedge-tailed Sabrewing
+Violet Sabrewing
+Stripe-tailed Hummingbird
+Crowned Woodnymph
+White-bellied Emerald
+Azure-crowned Hummingbird
+Rufous-tailed Hummingbird
+Buff-bellied Hummingbird
+Cinnamon Hummingbird
+Blue-throated Goldentail
+
+GRUIFORMES: Rallidae
+Ruddy Crake
+Gray-breasted Crake
+Black Rail
+Clapper Rail
+Rufous-necked Wood-Rail
+Gray-necked Wood-Rail
+Uniform Crake
+Sora
+Yellow-breasted Crake
+Spotted Rail
+Purple Gallinule
+Common Gallinule
+American Coot
+
+GRUIFORMES: Heliornithidae
+Sungrebe
+
+GRUIFORMES: Aramidae
+Limpkin
+
+CHARADRIIFORMES: Recurvirostridae
+Black-necked Stilt
+American Avocet
+
+CHARADRIIFORMES: Haematopodidae
+American Oystercatcher
+
+CHARADRIIFORMES: Charadriidae
+Southern Lapwing
+Black-bellied Plover
+American Golden-Plover
+Collared Plover
+Snowy Plover
+Wilson's Plover
+Semipalmated Plover
+Killdeer
+
+CHARADRIIFORMES: Jacanidae
+Northern Jacana
+
+CHARADRIIFORMES: Scolopacidae
+Upland Sandpiper
+Whimbrel
+Long-billed Curlew
+Hudsonian Godwit
+Marbled Godwit
+Ruddy Turnstone
+Red Knot
+Stilt Sandpiper
+Sanderling
+Dunlin
+Least Sandpiper
+White-rumped Sandpiper
+Buff-breasted Sandpiper
+Pectoral Sandpiper
+Semipalmated Sandpiper
+Western Sandpiper
+Dowitcher sp.?
+Short-billed Dowitcher
+Long-billed Dowitcher
+Wilson's Snipe
+Spotted Sandpiper
+Solitary Sandpiper
+Lesser Yellowlegs
+Willet
+Greater Yellowlegs
+Wilson's Phalarope
+Red-necked Phalarope
+
+CHARADRIIFORMES: Stercorariidae
+Great Skua
+Pomarine Jaeger
+Parasitic Jaeger
+
+CHARADRIIFORMES: Laridae
+Black-legged Kittiwake
+Bonaparte's Gull
+Laughing Gull
+Franklin's Gull
+Black-tailed Gull
+Ring-billed Gull
+Herring Gull
+Lesser Black-backed Gull
+Brown Noddy
+Black Noddy
+Sooty Tern
+Bridled Tern
+Least Tern
+Gull-billed Tern
+Caspian Tern
+Black Tern
+Roseate Tern
+Common Tern
+Arctic Tern
+Forster's Tern
+Royal Tern
+Sandwich Tern
+Black Skimmer
+
+PHAETHONTIFORMES: Phaethontidae
+White-tailed Tropicbird
+
+PROCELLARIIFORMES: Procellariidae
+Manx Shearwater
+Audubon's Shearwater
+
+PROCELLARIIFORMES: Hydrobatidae
+Wilson's Storm-Petrel
+
+CICONIIFORMES: Ciconiidae
+Jabiru
+Wood Stork
+
+SULIFORMES: Fregatidae
+Magnificent Frigatebird
+
+SULIFORMES: Sulidae
+Masked Booby
+Brown Booby
+Red-footed Booby
+
+SULIFORMES: Phalacrocoracidae
+Neotropic Cormorant
+Double-crested Cormorant
+
+SULIFORMES: Anhingidae
+Anhinga
+
+PELECANIFORMES: Pelecanidae
+American White Pelican
+Brown Pelican
+
+PELECANIFORMES: Ardeidae
+Pinnated Bittern
+American Bittern
+Least Bittern
+Rufescent Tiger-Heron
+Bare-throated Tiger-Heron
+Great Blue Heron
+Great Egret
+Snowy Egret
+Little Blue Heron
+Tricolored Heron
+Reddish Egret
+Cattle Egret
+Green Heron
+Agami Heron
+Black-crowned Night-Heron
+Yellow-crowned Night-Heron
+Boat-billed Heron
+
+PELECANIFORMES: Threskiornithidae
+White Ibis
+Scarlet Ibis
+Glossy Ibis
+White-faced Ibis
+Roseate Spoonbill
+
+CATHARTIFORMES: Cathartidae
+Black Vulture
+Turkey Vulture
+Lesser Yellow-headed Vulture
+King Vulture
+
+ACCIPITRIFORMES: Pandionidae
+Osprey
+
+ACCIPITRIFORMES: Accipitridae
+Gray-headed Kite
+Hook-billed Kite
+Swallow-tailed Kite
+White-tailed Kite
+Snail Kite
+Double-toothed Kite
+Mississippi Kite
+Plumbeous Kite
+Black-collared Hawk
+Northern Harrier
+Sharp-shinned Hawk
+Cooper's Hawk
+Bicolored Hawk
+Crane Hawk
+Common Black Hawk
+Great Black Hawk
+Solitary Eagle
+Roadside Hawk
+White-tailed Hawk
+White Hawk
+Gray Hawk
+Broad-winged Hawk
+Short-tailed Hawk
+Swainson's Hawk
+Zone-tailed Hawk
+Red-tailed Hawk
+Crested Eagle
+Harpy Eagle
+Black Hawk-Eagle
+Ornate Hawk-Eagle
+Black-and-white Hawk-Eagle
+
+STRIGIFORMES: Tytonidae
+Barn Owl
+
+STRIGIFORMES: Strigidae
+Vermiculated Screech-Owl
+Crested Owl
+Spectacled Owl
+Great Horned Owl
+Central American Pygmy-Owl
+Ferruginous Pygmy-Owl
+Burrowing Owl
+Mottled Owl
+Black-and-white Owl
+Stygian Owl
+Short-eared Owl
+Striped Owl
+
+TROGONIFORMES: Trogonidae
+Slaty-tailed Trogon
+Black-headed Trogon
+Gartered Trogon
+Collared Trogon
+
+CORACIIFORMES: Momotidae
+Tody Motmot
+Lesson's Motmot
+Keel-billed Motmot
+
+CORACIIFORMES: Alcedinidae
+Ringed Kingfisher
+Belted Kingfisher
+Amazon Kingfisher
+Green Kingfisher
+American Pygmy Kingfisher
+
+PICIFORMES: Bucconidae
+White-necked Puffbird
+White-whiskered Puffbird
+
+PICIFORMES: Galbulidae
+Rufous-tailed Jacamar
+
+PICIFORMES: Ramphastidae
+Northern Emerald-Toucanet
+Collared Aracari
+Keel-billed Toucan
+
+PICIFORMES: Picidae
+Acorn Woodpecker
+Black-cheeked Woodpecker
+Yucatan Woodpecker
+Golden-fronted Woodpecker
+Yellow-bellied Sapsucker
+Ladder-backed Woodpecker
+Smoky-brown Woodpecker
+Golden-olive Woodpecker
+Chestnut-colored Woodpecker
+Lineated Woodpecker
+Pale-billed Woodpecker
+
+FALCONIFORMES: Falconidae
+Laughing Falcon
+Barred Forest-Falcon
+Collared Forest-Falcon
+Crested Caracara
+American Kestrel
+Merlin
+Aplomado Falcon
+Bat Falcon
+Orange-breasted Falcon
+Peregrine Falcon
+
+PSITTACIFORMES: Psittacidae
+Olive-throated Parakeet
+Scarlet Macaw
+Brown-hooded Parrot
+White-crowned Parrot
+White-fronted Parrot
+Yellow-lored Parrot
+Red-lored Parrot
+Mealy Parrot
+Yellow-headed Parrot
+Yellow-naped Parrot
+
+PASSERIFORMES: Thamnophilidae
+Great Antshrike
+Barred Antshrike
+Black-crowned Antshrike
+Russet Antshrike
+Plain Antvireo
+Slaty Antwren
+Dot-winged Antwren
+Dusky Antbird
+Bare-crowned Antbird
+
+PASSERIFORMES: Formicariidae
+Black-faced Antthrush
+
+PASSERIFORMES: Furnariidae
+Tawny-throated Leaftosser
+Scaly-throated Leaftosser
+Olivaceous Woodcreeper
+Ruddy Woodcreeper
+Tawny-winged Woodcreeper
+Wedge-billed Woodcreeper
+Northern Barred-Woodcreeper
+Strong-billed Woodcreeper
+Ivory-billed Woodcreeper
+Spotted Woodcreeper
+Streak-headed Woodcreeper
+Plain Xenops
+Scaly-throated Foliage-gleaner
+Buff-throated Foliage-gleaner
+Rufous-breasted Spinetail
+
+PASSERIFORMES: Tyrannidae
+Yellow-bellied Tyrannulet
+Northern Beardless-Tyrannulet
+Greenish Elaenia
+Caribbean Elaenia
+Yellow-bellied Elaenia
+Ochre-bellied Flycatcher
+Sepia-capped Flycatcher
+Paltry Tyrannulet
+Northern Bentbill
+Slate-headed Tody-Flycatcher
+Common Tody-Flycatcher
+Eye-ringed Flatbill
+Yellow-olive Flycatcher
+Stub-tailed Spadebill
+Royal Flycatcher
+Ruddy-tailed Flycatcher
+Sulphur-rumped Flycatcher
+Olive-sided Flycatcher
+Greater Pewee
+Western Wood-Pewee
+Pewee sp.?
+Eastern Wood-Pewee
+Tropical Pewee
+Yellow-bellied Flycatcher
+Acadian Flycatcher
+Alder Flycatcher
+Willow Flycatcher
+White-throated Flycatcher
+Least Flycatcher
+Black Phoebe
+Eastern Phoebe
+Vermilion Flycatcher
+Bright-rumped Attila
+Rufous Mourner
+Yucatan Flycatcher
+Dusky-capped Flycatcher
+Great Crested Flycatcher
+Brown-crested Flycatcher
+Great Kiskadee
+Boat-billed Flycatcher
+Social Flycatcher
+Streaked Flycatcher
+Sulphur-bellied Flycatcher
+Piratic Flycatcher
+Tropical Kingbird
+Couch's Kingbird
+Cassin's Kingbird
+Western Kingbird
+Eastern Kingbird
+Gray Kingbird
+Scissor-tailed Flycatcher
+Fork-tailed Flycatcher
+
+PASSERIFORMES: Tityridae
+Northern Schiffornis
+Speckled Mourner
+Masked Tityra
+Black-crowned Tityra
+Cinnamon Becard
+White-winged Becard
+Gray-collared Becard
+Rose-throated Becard
+
+PASSERIFORMES: Cotingidae
+Lovely Cotinga
+Rufous Piha
+
+PASSERIFORMES: Pipridae
+White-collared Manakin
+Red-capped Manakin
+
+PASSERIFORMES: Vireonidae
+Rufous-browed Peppershrike
+Green Shrike-Vireo
+Tawny-crowned Greenlet
+Lesser Greenlet
+White-eyed Vireo
+Mangrove Vireo
+Bell's Vireo
+Yellow-throated Vireo
+Blue-headed Vireo
+Plumbeous Vireo
+Philadelphia Vireo
+Warbling Vireo
+Red-eyed Vireo
+Yellow-green Vireo
+Black-whiskered Vireo
+Yucatan Vireo
+
+PASSERIFORMES: Corvidae
+Brown Jay
+Green Jay
+Yucatan Jay
+
+PASSERIFORMES: Hirundinidae
+Purple Martin
+Sinaloa Martin
+Gray-breasted Martin
+Tree Swallow
+Mangrove Swallow
+Violet-green Swallow
+Northern Rough-winged Swallow
+Bank Swallow
+Cliff Swallow
+Cave Swallow
+Barn Swallow
+
+PASSERIFORMES: Troglodytidae
+Nightingale Wren
+House Wren
+Sedge Wren
+Carolina Wren
+Band-backed Wren
+Spot-breasted Wren
+Cabanis's Wren
+White-bellied Wren
+White-breasted Wood-Wren
+Gray-breasted Wood-Wren
+
+PASSERIFORMES: Polioptilidae
+Long-billed Gnatwren
+Blue-gray Gnatcatcher
+Tropical Gnatcatcher
+
+PASSERIFORMES: Turdidae
+Eastern Bluebird
+Slate-colored Solitaire
+Veery
+Gray-cheeked Thrush
+Swainson's Thrush
+Hermit Thrush
+Wood Thrush
+Clay-colored Thrush
+White-throated Thrush
+American Robin
+
+PASSERIFORMES: Mimidae
+Black Catbird
+Gray Catbird
+Tropical Mockingbird
+Northern Mockingbird
+
+PASSERIFORMES: Bombycillidae
+Cedar Waxwing
+
+PASSERIFORMES: Estrildidae
+Tricolored Munia
+
+PASSERIFORMES: Passeridae
+House Sparrow
+
+PASSERIFORMES: Motacillidae
+American Pipit
+
+PASSERIFORMES: Fringillidae
+Scrub Euphonia
+Yellow-throated Euphonia
+Elegant Euphonia
+Olive-backed Euphonia
+White-vented Euphonia
+Red Crossbill
+Black-headed Siskin
+Lesser Goldfinch
+
+PASSERIFORMES: Passerellidae
+Orange-billed Sparrow
+Olive Sparrow
+Green-backed Sparrow
+Rusty Sparrow
+Botteri's Sparrow
+Chipping Sparrow
+Clay-colored Sparrow
+Vesper Sparrow
+Lark Sparrow
+Savannah Sparrow
+Grasshopper Sparrow
+Lincoln's Sparrow
+White-throated Sparrow
+White-crowned Sparrow
+Common Chlorospingus
+
+PASSERIFORMES: Icteriidae
+Yellow-breasted Chat
+
+PASSERIFORMES: Icteridae
+Yellow-headed Blackbird
+Bobolink
+Eastern Meadowlark
+Yellow-billed Cacique
+Yellow-winged Cacique
+Chestnut-headed Oropendola
+Montezuma Oropendola
+Black-cowled Oriole
+Orchard Oriole
+Hooded Oriole
+Yellow-backed Oriole
+Yellow-tailed Oriole
+Bullock's Oriole
+Orange Oriole
+Spot-breasted Oriole
+Altamira Oriole
+Baltimore Oriole
+Red-winged Blackbird
+Shiny Cowbird
+Bronzed Cowbird
+Brown-headed Cowbird
+Giant Cowbird
+Melodious Blackbird
+Great-tailed Grackle
+
+PASSERIFORMES: Parulidae
+Ovenbird
+Worm-eating Warbler
+Louisiana Waterthrush
+Northern Waterthrush
+Golden-winged Warbler
+Blue-winged Warbler
+Black-and-white Warbler
+Prothonotary Warbler
+Swainson's Warbler
+Tennessee Warbler
+Orange-crowned Warbler
+Nashville Warbler
+Virginia's Warbler
+Connecticut Warbler
+Gray-crowned Yellowthroat
+MacGillivray's Warbler
+Mourning Warbler
+Kentucky Warbler
+Common Yellowthroat
+Hooded Warbler
+American Redstart
+Cape May Warbler
+Cerulean Warbler
+Northern Parula
+Tropical Parula
+Magnolia Warbler
+Bay-breasted Warbler
+Blackburnian Warbler
+Yellow Warbler
+Chestnut-sided Warbler
+Blackpoll Warbler
+Black-throated Blue Warbler
+Palm Warbler
+Yellow-rumped Warbler
+Yellow-throated Warbler
+Prairie Warbler
+Grace's Warbler
+Black-throated Gray Warbler
+Townsend's Warbler
+Hermit Warbler
+Golden-cheeked Warbler
+Black-throated Green Warbler
+Rufous-capped Warbler
+Golden-crowned Warbler
+Canada Warbler
+Wilson's Warbler
+
+PASSERIFORMES: Cardinalidae
+Rose-throated Tanager
+Hepatic Tanager
+Summer Tanager
+Scarlet Tanager
+Western Tanager
+Flame-colored Tanager
+White-winged Tanager
+Red-crowned Ant-Tanager
+Red-throated Ant-Tanager
+Black-faced Grosbeak
+Northern Cardinal
+Rose-breasted Grosbeak
+Black-headed Grosbeak
+Gray-throated Chat
+Blue Seedeater
+Blue-black Grosbeak
+Blue Bunting
+Blue Grosbeak
+Lazuli Bunting
+Indigo Bunting
+Painted Bunting
+Dickcissel
+
+PASSERIFORMES: Thraupidae
+Blue-gray Tanager
+Yellow-winged Tanager
+Golden-hooded Tanager
+Grassland Yellow-Finch
+Green Honeycreeper
+Blue-black Grassquit
+Gray-headed Tanager
+Black-throated Shrike-Tanager
+Crimson-collared Tanager
+Passerini's Tanager
+Shining Honeycreeper
+Red-legged Honeycreeper
+Bananaquit
+Yellow-faced Grassquit
+Thick-billed Seed-Finch
+Variable Seedeater
+Slate-colored Seedeater
+White-collared Seedeater
+Black-headed Saltator
+Buff-throated Saltator
+Grayish Saltator
