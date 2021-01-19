@@ -2,6 +2,7 @@ from typing import List, Any, Union, Dict, Tuple
 import pandas as pd
 import sys
 import traceback
+import re
 
 from utilities_cbc import read_excel_or_csv_path
 from common_paths import *
@@ -11,6 +12,8 @@ from text_transform import clean_common_names
 
 from write_final_checklist import write_final_checklist_spreadsheet, \
     recombine_transformed_checklist, excel_columns
+from parameters import Parameters
+
 
 
 # mergable_filetypes = ['.xlsx', '.csv']
@@ -28,6 +31,44 @@ from write_final_checklist import write_final_checklist_spreadsheet, \
 # stem_to_colname is dict of fstem to column name
 # e.g. {'CASJ-EBird-Summary-Agnews.xlsx' : '01-Agnews'}
 # output_path e.g. reports_path / f'{circle_abbrev}-Summary.xlsx'
+def merge_files(xinputs_merge_path: Path,
+                taxonomy: Taxonomy,
+                local_translation_context,
+                prefix_to_strip=None):
+    allowable_filetypes = ['.xlsx', '.csv']
+    files_to_merge = []
+
+    for fpath in xinputs_merge_path.glob('*'):
+        if fpath.stem.startswith('~$') or fpath.stem.startswith('.') or \
+                not fpath.suffix in allowable_filetypes:
+            # system file or Excel tempfile or not CSV/Excel
+            continue
+        files_to_merge.append(fpath)
+
+    # Must have at least two files to merge
+    # Arbitrarily pick first as template
+    if len(files_to_merge) < 2:
+        print(f'Nothing to merge in {xinputs_merge_path}')
+        return
+
+    files_to_merge = sorted(files_to_merge)
+    template_path, *other_paths = files_to_merge
+    print(f'Using {template_path} as template')
+
+    # Create some column names
+    stem_to_colname = {}
+    for ix, fpath in enumerate(other_paths):
+        stem = fpath.stem.replace(prefix_to_strip, '') if prefix_to_strip else fpath.stem
+        # Does it already have leading digits?
+        mm = re.match(r'^([0-9]+-)', stem)
+        col_name = stem if mm else f'{ix + 1:02d}-{stem}'
+        stem_to_colname[fpath.stem] = col_name
+        # could use compute_hash(txt, length=6):
+
+    mcl = merge_checklists(template_path, other_paths, stem_to_colname,
+                           taxonomy, local_translation_context)
+
+    return mcl
 
 
 def merge_checklists(summary_base: Any,
@@ -105,12 +146,14 @@ def merge_checklists(summary_base: Any,
             species_to_add = taxonomy.filter_species(list(names_to_add))
             if len(species_to_add) > 0:
                 print(f'Added species: {species_to_add}')
+            # Fix capitalization
+            names_to_add = clean_common_names(names_to_add, taxonomy, local_translation_context)
             blank_row = pd.Series([''] * len(summary.columns), index=summary.columns)
             rows_to_add = []
             for cn in names_to_add:
                 row = blank_row.copy()
                 row['CommonName'] = cn
-                if cn in species_to_add:
+                if cn.lower() in species_to_add:
                     row['Rare'] = 'X'
                 total = checklist[checklist.cnlower == cn.lower()]['Total'].values[0]
                 row[sector_col] = total

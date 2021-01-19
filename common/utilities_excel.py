@@ -13,13 +13,17 @@ https://stackoverflow.com/questions/20648149/what-are-numberformat-options-in-ex
 
 import string
 from enum import IntEnum
-from typing import Dict
+from typing import Dict, Tuple
 
 import pandas as pd
 import webcolors
 import xlsxwriter
 from xlsxwriter.format import Format
 from xlsxwriter.worksheet import Worksheet
+
+# Only for legacy '.xls' files
+import xlrd
+from pathlib import Path
 
 # Any colors not defined in webcolors CSS3 are listed here
 # Names generally from https://www.schemecolor.com/
@@ -219,3 +223,4 @@ def make_sheet_banded(worksheet: Worksheet, df: pd.DataFrame):
 #     '4BACC6', # 9             accent5 FF4BACC6
 #     'F79646', # 10            accent6 FFF79646
 # ]
+

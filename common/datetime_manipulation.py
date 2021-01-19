@@ -21,6 +21,7 @@ def normalize_date_for_visits(date_str: str) -> str:
 
 
 def normalize_date_for_details(date_str: str, date_only=True) -> str:
+    # Parameters expects format '%Y-%m-%d'
     # returned from get_details: obsDt and creationDt: 2020-12-26 10:18
     # (e.g. 4 Jan 2020 not 04 Jan 2020)
     # was: convert_date_to_obsdt

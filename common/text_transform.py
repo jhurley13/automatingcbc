@@ -178,7 +178,7 @@ def clean_common_names(common_names: List[str],
     # print(f'Possible species lines: {len(possibles)} (based on word intersections)')
 
     # Double translate
-    print('Doing double translation')  # Can take a while
+    # print('Doing double translation')  # Can take a while
     translated = []
     for line in common_names:  # was: possibles
         txline = local_translation_context.apply_translations(line.lower(), True)

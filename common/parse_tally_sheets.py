@@ -303,7 +303,7 @@ def process_checklist(checklist_path: Path,
     print(f'Possible species lines: {len(possibles)} (based on word intersections)')
 
     # Double translate
-    print('Doing double translation')  # Can take a while
+    # print('Doing double translation')  # Can take a while
     translated = []
     for line in text_list_lower:  # was: possibles
         txline = local_translation_context.apply_translations(line.lower(), True)
