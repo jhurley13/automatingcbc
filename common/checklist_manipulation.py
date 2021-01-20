@@ -156,35 +156,38 @@ def find_location_near_duplicates(checklist_meta: pd.DataFrame,
     # ToDo: naming of intermediate variables is a mess here, due to how it evolved
     # in meters
 
-    xpc3_locids = sorted(list(set(checklist_meta.locId)))
-    xpc3_locations = location_data[location_data.locId.isin(xpc3_locids)]
+    unique_locids = sorted(list(set(checklist_meta.locId)))
+    unique_locations = location_data[location_data.locId.isin(unique_locids)].copy()
+    unique_locations = unique_locations.drop_duplicates(keep='first').reset_index()
 
-    coords = list(zip(xpc3_locations.latitude, xpc3_locations.longitude))
+    coords = list(zip(unique_locations.latitude, unique_locations.longitude))
 
     # Distance Matrix
 
     x1 = np.array([distance(a, b).m for a in coords for b in coords]).reshape(len(coords),
                                                                               len(coords))
-    xp3_dists = pd.DataFrame(x1, index=xpc3_locations.locId.values,
-                             columns=xpc3_locations.locId.values)
+    pairwise_distances = pd.DataFrame(x1, index=unique_locations.locId.values,
+                                      columns=unique_locations.locId.values)
 
-    x4_dists = xp3_dists[(xp3_dists.values > 0) &
-                         (xp3_dists.values < horseshoe_closeness_threshold)]
-    if x4_dists.empty:
+    # This is a subset where at least one column in each row is "close"
+    possible_close_rows = pairwise_distances[(pairwise_distances.values > 0) &
+                                             (pairwise_distances.values <
+                                              LOCATION_CLOSENESS_DISTANCE)]
+    if possible_close_rows.empty:
         return None
 
-    cols_to_keep = list(set(x4_dists.index))
-    # x4_dists[cols_to_keep]
+    cols_to_keep = list(set(possible_close_rows.index))
 
-    x5_dists = x4_dists[cols_to_keep].copy().drop_duplicates(keep='first').replace(0, 7777.0)
-    potential_dups = x5_dists[cols_to_keep].idxmin()
+    potential_dups_df = possible_close_rows[cols_to_keep].copy().drop_duplicates(
+        keep='first').replace(0, 7777.0)
+    potential_dups_x = potential_dups_df[cols_to_keep].idxmin()
     potential_dups = list(set(
-        [(a, b) if a < b else (b, a) for a, b in zip(potential_dups.index, potential_dups.values)]))
-    # potential_dups
+        [(a, b) if a < b else (b, a) for a, b in
+         zip(potential_dups_x.index, potential_dups_x.values)]))
 
     rows = []
     for loc_a, loc_b in potential_dups:
-        dist = x5_dists.loc[loc_a, loc_b]  # .iloc[0]
+        dist = potential_dups_df.loc[loc_a, loc_b]
         # print(dist)
         if dist > horseshoe_closeness_threshold:
             continue
