@@ -17,6 +17,20 @@ from process_csv import raw_csv_to_checklist
 from service_merge import recombine_transformed_checklist, merge_checklists
 from taxonomy import Taxonomy
 from write_final_checklist import write_final_checklist_spreadsheet
+from common_paths import outputs_path
+
+
+def check_prerequisites(circle_prefix: str) -> bool:
+    # True means we are good to go
+    ready = False
+    fpath = outputs_path / f'{circle_prefix}Single.xlsx'
+    if not fpath.exists():
+        print(f'Missing {fpath}, run Service-Parse first')
+        raise Exception('Not ready')
+    else:
+        ready = True
+
+    return ready
 
 
 def find_location_name_with_locid(location_data, locid) -> str:

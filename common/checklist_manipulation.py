@@ -88,6 +88,8 @@ def create_checklist_meta(personal_checklists: pd.DataFrame,
     # Not clear that fingerprints are useful now
     # cm['fingerprints'] = add_fingerprints(cm, personal_checklists)
 
+    # None for Name will cause problems later
+    cm.Name = cm.Name.fillna('unknown')
     cm.sort_values(by=['location_group', 'locId', 'obsDt', 'groupId', 'Name'],
                    na_position='first', inplace=True)
 

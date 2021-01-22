@@ -61,16 +61,19 @@ def use_basic_dataset(visits: pd.DataFrame, xdates: List[str],
     if bds.empty:
         return visits
 
+    is_hotspot = bds['LOCALITY TYPE'].apply(lambda lt: lt=='H')
     # Names match those in visits
     new_col_names = {
         'LOCALITY ID': 'locId', 'SAMPLING EVENT IDENTIFIER': 'subId', 'OBSERVER ID': 'Name',
         'OBSERVATION DATE': 'obsDt', 'TIME OBSERVATIONS STARTED': 'obsTime',
         'LOCALITY': 'loc_name', 'LATITUDE': 'latitude', 'LONGITUDE': 'longitude',
+        'COUNTY CODE': 'RegionCode'
     }
     bds.rename(columns=new_col_names, inplace=True)
 
     numSpecies_df = bds.groupby(['subId']).size().reset_index(name='numSpecies').sort_values(
         by=['subId'])
+    bds['loc_isHotspot'] = is_hotspot
 
     bds = bds.drop_duplicates(['subId', 'obsDt', 'obsTime', 'latitude', 'longitude']).reset_index(
         drop=True)
@@ -79,7 +82,7 @@ def use_basic_dataset(visits: pd.DataFrame, xdates: List[str],
     bds.obsTime = bds.obsTime.apply(normalize_time_for_visits)
 
     new_col_order = ['locId', 'subId', 'Name', 'numSpecies', 'obsDt', 'obsTime', 'loc_name',
-                     'latitude', 'longitude']
+                     'latitude', 'longitude', 'loc_isHotspot', 'RegionCode']
     bds = bds[new_col_order].sort_values(by=['subId']).reset_index(drop=True)
 
     for col in ['latitude', 'longitude']:
@@ -89,5 +92,6 @@ def use_basic_dataset(visits: pd.DataFrame, xdates: List[str],
     bds['geometry'] = vgeometry
 
     # We could fix 'Name' with 'userDisplayName' field from get_details, but not important here
+    # Need to fill in ['loc_isHotspot', 'RegionCode']
 
     return pd.concat([visits, bds], axis=0, ignore_index=True)
