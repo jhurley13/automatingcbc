@@ -20,6 +20,13 @@ def normalize_date_for_visits(date_str: str) -> str:
     return xdate
 
 
+def normalize_time_for_visits(time_str: str) -> str:
+    # visits has e.g. obsTime 17:23, with no seconds
+    xtime = parser.parse(time_str).strftime('%H:%M')
+
+    return xtime
+
+
 def normalize_date_for_details(date_str: str, date_only=True) -> str:
     # Parameters expects format '%Y-%m-%d'
     # returned from get_details: obsDt and creationDt: 2020-12-26 10:18
