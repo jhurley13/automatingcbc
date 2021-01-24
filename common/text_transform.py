@@ -161,8 +161,8 @@ def tertiary_transformation(line):
 
 
 def clean_common_names(common_names: List[str],
-                       taxonomy,
-                       local_translation_context) -> List[str]:
+                       taxonomy: Taxonomy,
+                       local_translation_context: LocalTranslationContext) -> List[str]:
     # skip tertiary_transformation() for now
     common_names = [secondary_species_processing(pre_process_line(line)) for line in common_names]
 

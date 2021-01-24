@@ -34,7 +34,7 @@ excel_colorindices = {
     'vividskyblue': '#00CCFF',  # 33 'deepskyblue'
     'water': '#CCFFFF',  # 34 'lightcyan'
     'teagreen': '#CCFFCC',  # 35   'palegreen'
-    'fuschia2': '#FF00FF', # canary is too close to header color 'canary': '#FFFF99',  # 36
+    'fuschia2': '#FF00FF',  # canary is too close to header color 'canary': '#FFFF99',  # 36
     'babyblueeyes': '#99CCFF',  # 37  'powderblue'
     'palemagentapink': '#FF99CC',  # 38  'lightpink'
     'paleviolet': '#CC99FF',  # 39 'orchid'
@@ -198,6 +198,7 @@ def make_sheet_banded(worksheet: Worksheet, df: pd.DataFrame):
 
     worksheet.add_table(f'A1:{last_col_letter}{xl_last_data_row}', table_style)
 
+
 # https://rdrr.io/cran/tidyxl/man/xlsx_color_theme.html
 #                  name      rgb
 # 1         background1 FFFFFFFF
@@ -224,3 +225,38 @@ def make_sheet_banded(worksheet: Worksheet, df: pd.DataFrame):
 #     'F79646', # 10            accent6 FFF79646
 # ]
 
+# ----------------- XLRD ---------------
+
+def extract_from_audubon_results(fpath: Path) -> Tuple[pd.DataFrame, dict]:
+    # Kinda hacky, works for 121st count results (2020 season)
+    book = xlrd.open_workbook(fpath)
+    sheet = book.sheet_by_index(0)
+
+    # Count code is in cell $A6$AC, name in $A6$L, date in $A6$AO
+    count_info_row = 5
+    count_code_col = excel_columns().index('AC')
+    count_name_col = excel_columns().index('L')
+    count_date_col = excel_columns().index('AO')
+
+    circle_code = sheet.cell_value(rowx=count_info_row, colx=count_code_col)
+    circle_name = sheet.cell_value(rowx=count_info_row, colx=count_name_col)
+    count_date = sheet.cell_value(rowx=count_info_row, colx=count_date_col)
+
+    col_g = sheet.col_values(excel_columns().index('G'))
+    col_s = sheet.col_values(excel_columns().index('S'))
+
+    # Scan down column G to find boundaries for species list
+    species_index = col_g.index('Species')
+    total_individuals_index = col_g.index('Total Individuals')
+
+    species = col_g[species_index + 1: total_individuals_index]
+    totals = col_s[species_index + 1: total_individuals_index]
+
+    # print(circle_name, circle_code, count_date)
+    # print(f'Species count: {len(species)}')
+
+    circle_info = {'Name': circle_name, 'Code': circle_code, 'Date': count_date}
+
+    df = pd.DataFrame(list(zip(species, totals)), columns=['CommonName', 'Total'])
+
+    return df, circle_info

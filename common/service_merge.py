@@ -75,7 +75,7 @@ def merge_checklists(summary_base: Any,
                      sector_files: List[Any],
                      stem_to_colname: Union[dict, List[str]],
                      taxonomy: Taxonomy,
-                     local_translation_context: LocalTranslationContext,
+                     local_translation_context: LocalTranslationContext
                      ) -> Tuple[pd.DataFrame, List[str], List[str]]:
     # Easier to use single column summary_base, but this will transform it if needed
     if isinstance(summary_base, Path):
@@ -147,7 +147,8 @@ def merge_checklists(summary_base: Any,
             if len(species_to_add) > 0:
                 print(f'Added species: {species_to_add}')
             # Fix capitalization
-            names_to_add = clean_common_names(names_to_add, taxonomy, local_translation_context)
+            names_to_add = clean_common_names(list(names_to_add), taxonomy,
+                                              local_translation_context)
             blank_row = pd.Series([''] * len(summary.columns), index=summary.columns)
             rows_to_add = []
             for cn in names_to_add:
@@ -247,6 +248,8 @@ def merge_checklists(summary_base: Any,
     #     team_start_col = col_letters[len(base_columns)]
     std_columns = ['Group', 'CommonName', 'Rare', 'Total', 'Category', 'TaxonOrder',
                    'NACC_SORT_ORDER']
+    # Filter out any missing columns
+    std_columns = [col for col in std_columns if col in summary.columns]
     # team_start_col = col_letters[index_of_first_subtotal_column(summary)]
     sector_start_col = col_letters[len(std_columns)]
     sector_end_col = col_letters[len(summary.columns) - 1]
@@ -282,8 +285,8 @@ def merge_checklists(summary_base: Any,
     # print(sector_cols)
     # print(summary.columns)
 
-    new_col_order = ['Group', 'CommonName', 'Rare', 'Total',
-                     'Category', 'TaxonOrder', 'NACC_SORT_ORDER']
+    new_col_order =  [col for col in ['Group', 'CommonName', 'Rare', 'Total',
+                     'Category', 'TaxonOrder', 'NACC_SORT_ORDER'] if col in summary.columns]
     new_col_order.extend(sector_cols)
     summary = summary[new_col_order]
 
