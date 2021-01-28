@@ -24,9 +24,6 @@ from utilities_misc import miles_to_kilometers
 # Constants and Globals
 DEFAULT_CIRCLE_RADIUS = 7.5  # Miles
 
-camh_latitude = 37.37
-camh_longitude = -121.52
-
 circle_radius_miles = DEFAULT_CIRCLE_RADIUS
 circle_radius = 1000 * miles_to_kilometers(circle_radius_miles)  # radius in meters  1000 *
 
