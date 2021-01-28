@@ -136,6 +136,26 @@ def process_additional_checklist(additional_files: Optional[Dict[str, List[Path]
     return personal_checklists_x
 
 
+def additional_count_checklists(circle_prefix: str, xdates: List[str],
+                                taxonomy: Taxonomy,
+                                personal_checklists) -> pd.DataFrame:
+    additional_files = {}
+    for fpath in inputs_count_path.glob('*.csv'):
+        if not fpath.stem.startswith(circle_prefix):
+            continue
+        name = fpath.stem
+        name.replace(circle_prefix, '')
+        additional_files[name] = [fpath]
+
+    if bool(additional_files):
+        personal_checklists = process_additional_checklist(additional_files,
+                                                           xdates,
+                                                           taxonomy,
+                                                           personal_checklists)
+    return personal_checklists
+
+
+# ToDo: eliminate add_bob_hirt, replace with additional_count_checklists
 def add_bob_hirt(xdates: List[str],
                  taxonomy: Taxonomy,
                  personal_checklists) -> pd.DataFrame:
@@ -224,19 +244,28 @@ def summarize_checklists(personal_checklists: pd.DataFrame,
     # Create EBird Summaries
     unlisted_rare_species = set()
     sectors = sorted(list(set(geo_data[geo_data['type'] == 'sector'].GeoName.values)))
-    for sector in sectors:
-        sector_subids = location_meta[location_meta.GeoName == sector].locId.values
-        sector_checklists = personal_checklists[personal_checklists.locId.isin(sector_subids)]
-        print(f'Sector: {sector:30} [{sector_checklists.shape[0]} observations]')
-        if sector_checklists.shape[0] == 0:
-            continue
-
-        summary, rare_species = create_ebird_summary(summary_base, sector_checklists,
+    if len(sectors) == 0:
+        sector = geo_data[geo_data['type'] == 'circle'].GeoName.values[0]
+        summary, rare_species = create_ebird_summary(summary_base, personal_checklists,
                                                      checklist_meta,
                                                      circle_code,
                                                      parameters, sector, taxonomy, reports_path)
         for species in rare_species:
             unlisted_rare_species.add(species)
+    else:
+        for sector in sectors:
+            sector_subids = location_meta[location_meta.GeoName == sector].locId.values
+            sector_checklists = personal_checklists[personal_checklists.locId.isin(sector_subids)]
+            print(f'Sector: {sector:30} [{sector_checklists.shape[0]} observations]')
+            if sector_checklists.shape[0] == 0:
+                continue
+
+            summary, rare_species = create_ebird_summary(summary_base, sector_checklists,
+                                                         checklist_meta,
+                                                         circle_code,
+                                                         parameters, sector, taxonomy, reports_path)
+            for species in rare_species:
+                unlisted_rare_species.add(species)
 
     # Print out rarities (eventually move to somewhere useful)
     rare_base = summary_base[summary_base.Rare != ''].CommonName.values
