@@ -61,6 +61,7 @@ def csv_dataframe_to_checklist(checklist: pd.DataFrame,
                                xdates: List[str]
                                ) -> Optional[pd.DataFrame]:
     # Use column names from eBird and let them be fixed by transform_checklist_details
+    # These all have to be present for transform_checklist_details
 
     if set(checklist.columns) & {'CommonName', 'Total'} == set():
         return None
@@ -84,8 +85,9 @@ def csv_dataframe_to_checklist(checklist: pd.DataFrame,
     # 'obsDt' needs dates in this form '26 Dec 2020'
     obsdt = datetime.strptime(xdates[0], '%Y-%m-%d').strftime('%d %b %Y')
     checklist['obsDt'] = f'{obsdt} 12:01'
-
     checklist['userDisplayName'] = observer_name
+    checklist['numObservers'] = 1
+    checklist['comments'] = 'Generated'
 
     # Clean up
     checklist = transform_checklist_details(checklist, taxonomy)
