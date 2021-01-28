@@ -4,7 +4,7 @@ from typing import List, Optional, Dict
 
 import pandas as pd
 
-from utilities_cbc import read_excel_or_csv_path
+from common_paths import outputs_path
 from common_paths import reports_path, inputs_count_path
 from datetime_manipulation import normalize_date_for_visits
 from ebird_extras import EBirdExtra
@@ -16,8 +16,8 @@ from parameters import Parameters
 from process_csv import raw_csv_to_checklist
 from service_merge import recombine_transformed_checklist, merge_checklists
 from taxonomy import Taxonomy
+from utilities_cbc import read_excel_or_csv_path
 from write_final_checklist import write_final_checklist_spreadsheet
-from common_paths import outputs_path
 
 
 def check_prerequisites(circle_prefix: str) -> bool:
@@ -120,13 +120,8 @@ def process_additional_checklist(additional_files: Optional[Dict[str, List[Path]
     local_translation_context = LocalTranslationContext()
     for name, fpaths in additional_files.items():
         for fpath in fpaths:
-            checklist = raw_csv_to_checklist(fpath,
-                                             taxonomy,
-                                             local_translation_context,
-                                             name,
-                                             xdates,
-                                             None,
-                                             None)
+            checklist = raw_csv_to_checklist(fpath, taxonomy, local_translation_context,
+                                             name, xdates)
             if checklist is not None and not checklist.empty:
                 additional_checklists.append(checklist)
 
@@ -155,30 +150,21 @@ def additional_count_checklists(circle_prefix: str, xdates: List[str],
     return personal_checklists
 
 
-# ToDo: eliminate add_bob_hirt, replace with additional_count_checklists
-def add_bob_hirt(xdates: List[str],
-                 taxonomy: Taxonomy,
-                 personal_checklists) -> pd.DataFrame:
-    additional_files = {'Bob Hirt': [inputs_count_path / 'CACR-bob-hirt.csv']}
-    personal_checklists = process_additional_checklist(additional_files,
-                                                       xdates,
-                                                       taxonomy,
-                                                       personal_checklists)
-    return personal_checklists
-
-
-def subids_for_pete_dunten(parameters: Parameters):
-    # True Hack
-    circle_code = parameters.parameters.get('CircleAbbrev', 'XXXX')
+def process_additional_subids(circle_prefix: str, date_of_count: str) \
+        -> Optional[Dict[str, List[str]]]:
+    # e.g. CACR-2020-AdditionalSubIds.txt
+    # should be a comma separated list of subIds, e.g. S78036994,S78035225
+    # The date_of_count is only used for caching, so throw all these into
+    # the date_of_count bucket
+    additional_subids_path = inputs_count_path / f'{circle_prefix}AdditionalSubIds.txt'
     subids_by_date = {}
+    if additional_subids_path.exists():
+        with open(additional_subids_path, 'r', encoding="utf-8") as fp:
+            text = fp.read()
+            subids = [xs.strip() for xs in text.split(',')]
+            subids_by_date[date_of_count] = subids
 
-    if circle_code == 'CACR':
-        # Additional subids for Pete Dunten
-        date_of_count = parameters.parameters['CountDate']
-
-        subids_by_date[date_of_count] = ['S78036994', 'S78035225']
-
-    return subids_by_date
+    return subids_by_date if bool(subids_by_date) else None
 
 
 def get_personal_checklist_details(visits: pd.DataFrame,
@@ -192,7 +178,7 @@ def get_personal_checklist_details(visits: pd.DataFrame,
     :param ebird_extra:
     :param visits: can be visits or visits_of_interest
     :param xdates:
-    :param additional_subids: ref subids_for_pete_dunten
+    :param additional_subids: ref process_additional_subids
     :param taxonomy:
     :return:
     """
@@ -244,6 +230,7 @@ def summarize_checklists(personal_checklists: pd.DataFrame,
     # Create EBird Summaries
     unlisted_rare_species = set()
     sectors = sorted(list(set(geo_data[geo_data['type'] == 'sector'].GeoName.values)))
+    sectors.append('Unspecified')
     if len(sectors) == 0:
         sector = geo_data[geo_data['type'] == 'circle'].GeoName.values[0]
         summary, rare_species = create_ebird_summary(summary_base, personal_checklists,

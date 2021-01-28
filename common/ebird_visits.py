@@ -4,7 +4,8 @@ from shapely import geometry
 from shapely.geometry import Point
 
 from taxonomy import Taxonomy
-
+from typing import Optional
+from utilities_misc import kilometers_to_miles
 
 def visits_in_circle(ebirders, geo_data, circle_code, visits):
     # Also filters by participants
@@ -92,36 +93,70 @@ def fix_total_column(checklist) -> pd.DataFrame:
 
     return checklist
 
+def row_to_miles(row) -> float:
+    if row['effortDistanceEnteredUnit'] == 'mi':
+        return row['effortDistanceKm']
+    else:
+        return kilometers_to_miles(row['effortDistanceKm'])
+
+def convert_effort_distance_to_miles(checklist: pd.DataFrame) -> Optional[pd.Series]:
+    distance_columns = ['effortDistanceKm', 'effortDistanceEnteredUnit']
+    if not all(elem in checklist.columns for elem in distance_columns):
+        return None
+
+    return checklist.apply(row_to_miles, axis=1)
+
 
 def transform_checklist_details(details: pd.DataFrame, taxonomy: Taxonomy) -> pd.DataFrame:
     # Circle/sector data kept in checklists_meta
-    cols_to_keep = [col for col in ['locId', 'subId', 'userDisplayName', 'groupId',
-                    'speciesCode', 'obsDt', 'howManyStr', 'numObservers',
-                    'effortDistanceKm', 'effortDistanceEnteredUnit', 'durationHrs',
-                    'comments'] if col in details.columns]
-    personal_checklists = details.copy()[cols_to_keep]
+    # Standardize column names
+    personal_checklists = details.copy()
 
-    rename_cols = ['userDisplayName', 'howManyStr', 'numObservers']
-    if all(elem in personal_checklists.columns for elem in rename_cols):
-        personal_checklists.rename(columns={'userDisplayName': 'Name', 'howManyStr': 'Total',
-                                            'numObservers': 'Observers'},
-                                   inplace=True)
-    personal_checklists['CommonName'] = personal_checklists.speciesCode.apply(
-        taxonomy.species6_to_common_name)
-    personal_checklists.sort_values(by=['locId', 'Name'], inplace=True)
+    # We don't use the columns later so get rid of them. Ignore error if column not present
+    cols_to_drop = [
+        'projId', 'protocolId', 'allObsReported', 'creationDt', 'lastEditedDt', 'obsTimeValid',
+        'checklistId', 'subnational1Code', 'submissionMethodCode',
+        'submissionMethodVersion', 'submissionMethodVersionDisp'
+    ]
+    personal_checklists.drop(columns=cols_to_drop, errors='ignore', inplace=True)
+
+    common_name_synonyms = ['Species', 'species']
+    total_synonyms = ['Count', 'howManyStr', 'Number']
+
+    rename_cols = {'userDisplayName': 'Name', 'howManyStr': 'Total', 'numObservers': 'Observers'}
+    personal_checklists.rename(columns=rename_cols, errors='ignore', inplace=True)
+
+    # Data in 'obs' field returned from eBird has speciesCode but no CommonName
+    if ('speciesCode' in personal_checklists.columns) and \
+            ('CommonName' not in personal_checklists.columns):
+        personal_checklists['CommonName'] = personal_checklists.speciesCode.apply(
+            taxonomy.species6_to_common_name)
+
+    # personal_checklists.sort_values(by=['locId', 'Name'], inplace=True)
 
     personal_checklists = fix_total_column(personal_checklists)
+
+    distance_mi = convert_effort_distance_to_miles(personal_checklists)
+    if distance_mi is not None:
+        personal_checklists['DistanceMi'] = distance_mi
+        personal_checklists.drop(columns=['effortDistanceKm', 'effortDistanceEnteredUnit'],
+                                 errors='ignore', inplace=True)
+
     xdtypes = {
         'locId': str, 'subId': str, 'Name': str, 'groupId': str,
         'speciesCode': str, 'obsDt': str, 'Total': int, 'CommonName': str,
-        'effortDistanceKm': float, 'effortDistanceEnteredUnit': str, 'durationHrs': float
+        'DistanceMi': float, 'durationHrs': float
     }
-    personal_checklists = personal_checklists.astype(dtype=xdtypes)
+    for col, xtyp in xdtypes.items():
+        if col not in personal_checklists.columns:
+            continue
+        personal_checklists[col] = personal_checklists[col].astype(xtyp, errors='ignore')
 
-    personal_checklist_column_order = ['locId', 'subId', 'Name', 'groupId', 'speciesCode',
-                                       'obsDt', 'Total', 'CommonName',
-                                       'effortDistanceKm', 'effortDistanceEnteredUnit',
-                                       'durationHrs', 'Observers', 'comments']
+    personal_checklist_column_order = [col for col in [
+        'locId', 'subId', 'Name', 'groupId', 'speciesCode', 'obsDt', 'Total',
+        'CommonName', 'DistanceMi', 'durationHrs', 'Observers', 'comments'
+        ] if col in personal_checklists.columns
+    ]
 
     personal_checklists = personal_checklists[personal_checklist_column_order]
 

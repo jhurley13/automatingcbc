@@ -38,7 +38,8 @@ def create_checklist_meta(personal_checklists: pd.DataFrame,
     # A lot of information is duplicated across all species. Collapse to single row
     cm.drop_duplicates(['subId'], inplace=True)
     # Get rid of duplicate or irrelevant columns
-    cm.drop(['speciesCode', 'CommonName', 'effortDistanceEnteredUnit'], axis=1, inplace=True)
+    cm.drop(['speciesCode', 'CommonName', 'effortDistanceEnteredUnit'], axis=1,
+            inplace=True, errors='ignore')
     # Pull in the correct Total from visits or visits_of_interest
     cm.Total = cm.subId.apply(find_total_in_visits, args=(visits,))
 
@@ -231,10 +232,9 @@ def add_fingerprints(checklist_meta: pd.DataFrame, personal_checklists: pd.DataF
 
 def construct_team_efforts(checklist_meta: pd.DataFrame) -> pd.DataFrame:
     party_efforts = checklist_meta.copy()
-    party_efforts.fillna({'durationHrs': 0, 'effortDistanceKm': 0}, inplace=True)
-    party_efforts['Distance (mi)'] = party_efforts['effortDistanceKm'].apply(kilometers_to_miles_r2)
-
-    dfgb = party_efforts.groupby('Name').sum()[['durationHrs', 'effortDistanceKm', 'Distance (mi)']]
+    party_efforts.fillna({'durationHrs': 0}, inplace=True)
+    party_efforts['Distance (mi)'] = party_efforts['DistanceMi'].astype(float)
+    dfgb = party_efforts.groupby('Name').sum()[['durationHrs', 'Distance (mi)']]
 
     # margins_name defaults to 'All'
     dfpt = dfgb.pivot_table(index='Name', margins=True, margins_name='Totals', aggfunc=sum)
@@ -252,16 +252,15 @@ def construct_team_details(checklist_meta: pd.DataFrame,
                              left_index=False, right_index=False, sort=True,
                              copy=True, indicator=False,
                              validate=None)
-    party_details.fillna({'durationHrs': 0, 'effortDistanceKm': 0}, inplace=True)
-    party_details['Distance (mi)'] = party_details['effortDistanceKm'].apply(kilometers_to_miles_r2)
+    party_details.fillna({'durationHrs': 0}, inplace=True)
+    party_details['Distance (mi)'] = party_details['DistanceMi'].astype(float)
     party_details.rename(columns={'durationHrs': 'Duration (Hrs)',
-                                  'effortDistanceKm': 'Distance (km)',
                                   'obsDt': 'Date/Time'
                                   }, inplace=True)
 
     new_col_order = ['locId', 'subId', 'Total', 'Name', 'Observers', 'sharing', 'groupId',
                      'location_group', 'Date/Time', 'url', 'LocationName',
-                     'Duration (Hrs)', 'Distance (mi)', 'Distance (km)', 'comments']
+                     'Duration (Hrs)', 'Distance (mi)', 'comments']
     party_details = party_details[new_col_order]
 
     return party_details

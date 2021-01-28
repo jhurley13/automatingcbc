@@ -17,7 +17,7 @@ def generate_autoparty(checklist_meta: pd.DataFrame, location_data: pd.DataFrame
             'locId': locid,
             'obsDt': obsdt,
             'members': ', '.join(sorted(list(grp.Name.values))),
-            'DistanceMi': grp.effortDistanceKm.values[0],
+            'DistanceMi': grp['DistanceMi'].values[0],
             'DurationHrs': grp.durationHrs.values[0]
         }
         rows.append(row)

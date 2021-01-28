@@ -821,7 +821,7 @@ def sheet_info_for_party_details(df: pd.DataFrame) -> dict:
     column_widths = {'locId': 10, 'subId': 10, 'Total': 10, 'Name': 25, 'Observers': 10,
                      'sharing': 10, 'groupId': 10, 'location_group': 20, 'Date/Time': 20, 'url': 28,
                      'LocationName': 25, 'Duration (Hrs)': 10, 'Distance (mi)': 10,
-                     'Distance (km)': 10, 'comments': 60}
+                     'comments': 60}
 
     columns_to_center = ['locId', 'subId', 'groupId', 'Date/Time', 'Total', 'Observers',
                          'effortDistanceKm', 'durationHrs', 'sharing', 'location_group']
@@ -842,12 +842,12 @@ def sheet_info_for_rarities(df: pd.DataFrame) -> dict:
     # 'effortDistanceEnteredUnit', 'durationHrs', 'Observers', 'comments', 'Reason', 'Where']
     column_widths = {
         'locId': 10, 'subId': 10, 'Name': 25, 'obsDt': 15, 'Total': 8, 'CommonName': 20,
-        'effortDistanceKm': 10, 'effortDistanceEnteredUnit': 6, 'durationHrs': 10,
+        'DistanceMi': 8, 'durationHrs': 10,
         'Observers': 8, 'comments': 60, 'Reason': 10, 'Where': 60
     }
 
     columns_to_center = ['locId', 'subId', 'obsDt', 'Total', 'Observers',
-                         'effortDistanceKm', 'durationHrs', 'Reason']
+                         'DistanceMi', 'durationHrs', 'Reason']
 
     sheet_info = {
         'sheet_name': 'Rarities',

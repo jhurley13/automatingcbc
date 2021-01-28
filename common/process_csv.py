@@ -8,18 +8,14 @@ from typing import List, Optional
 
 import pandas as pd
 
-from utilities_cbc import read_excel_or_csv_path
+from datetime_manipulation import normalize_date_for_visits
 # Local imports
 from ebird_extras import EBirdExtra
 from ebird_visits import transform_checklist_details
 from local_translation_context import LocalTranslationContext
 from taxonomy import Taxonomy
 from text_transform import clean_common_names
-
-
-# local_translation_context = LocalTranslationContext(None, None)
-# bob_hirt_path = inputs_merge_path / 'CACR-bob-hirt.csv'
-# checklist = read_excel_or_csv_path(bob_hirt_path)
+from utilities_cbc import read_excel_or_csv_path
 
 
 # Now for Bob Hirt
@@ -27,23 +23,8 @@ def raw_csv_to_checklist(fpath: Path,
                          taxonomy: Taxonomy,
                          local_translation_context: LocalTranslationContext,
                          observer_name: str,
-                         xdates: List[str],
-                         latitude: Optional[float],
-                         longitude: Optional[float]
+                         xdates: List[str]
                          ) -> pd.DataFrame:
-    """
-
-    :param fpath:
-    :param taxonomy:
-    :param local_translation_context:
-    :param observer_name:
-    :param observation_date: e.g. '2020-12-26'
-    :param circle_code:
-    :param sector_name:
-    :param latitude:
-    :param longitude:
-    :return:
-    """
     csvdf = read_excel_or_csv_path(fpath)
     df = csv_dataframe_to_checklist(csvdf, taxonomy, local_translation_context,
                                     observer_name,
@@ -83,8 +64,9 @@ def csv_dataframe_to_checklist(checklist: pd.DataFrame,
     checklist['effortDistanceKm'] = 0.1
     checklist['effortDistanceEnteredUnit'] = 'mi'
     # 'obsDt' needs dates in this form '26 Dec 2020'
-    obsdt = datetime.strptime(xdates[0], '%Y-%m-%d').strftime('%d %b %Y')
+    obsdt = normalize_date_for_visits(xdates[0])
     checklist['obsDt'] = f'{obsdt} 12:01'
+
     checklist['userDisplayName'] = observer_name
     checklist['numObservers'] = 1
     checklist['comments'] = 'Generated'
@@ -122,6 +104,3 @@ def subids_to_checklist(subids: List[str],
     checklist['Name'] = observer_name
 
     return checklist
-
-# cols_to_keep = ['locId', 'subId', 'userDisplayName', 'groupId',
-#                     'speciesCode', 'obsDt', 'howManyStr']

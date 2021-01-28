@@ -64,6 +64,25 @@ def build_location_data(hotspots, visits):
     return location_data
 
 
+def add_pseudo_location_data(location_data, parameters: Parameters) -> pd.DataFrame:
+    latitude = parameters.parameters.get('CircleLatitude', None)
+    longitude = parameters.parameters.get('CircleLongitude', None)
+    circle_code = parameters.parameters.get('CircleAbbrev', 'XXXX')
+    region_code = [xs.strip() for xs in parameters.parameters['eBirdRegion'].split(',')][0]
+    fake_loc = {
+        'locId': 'L5551212',
+        'RegionCode': region_code,
+        'latitude': latitude,
+        'longitude': longitude,
+        'LocationName': f'Circle Center for {circle_code}',
+        'coordinates': (latitude, longitude),
+        'geometry': Point(latitude, longitude)
+     }
+
+    location_data = location_data.append(fake_loc, ignore_index=True)
+
+    return location_data
+
 def add_cluster_labels(visits_geos: pd.DataFrame, cluster_info: List[dict],
                        parameters: Parameters) -> pd.DataFrame:
     circle_code = parameters.parameters.get('CircleAbbrev', 'XXXX')
@@ -263,16 +282,21 @@ def update_geo_data_with_clustering(geo_data: pd.DataFrame,
 
 
 def build_location_meta(geo_data, personal_checklists, location_data,
+                        parameters: Parameters,
                         cluster_table: pd.DataFrame = None) -> pd.DataFrame:
     metas = []
     use_cluster_table = bool(cluster_table is not None and not cluster_table.empty)
     location_data_x = cluster_table if use_cluster_table else location_data
-    for locid in set(personal_checklists.locId.values):
+    for locid in set(personal_checklists.locId.values) | {'L5551212'}:
         try:
             location = location_data_x[location_data_x.locId == locid].iloc[0]
         except IndexError as ie:
             print(f'No location data for {locid}')
-            meta = {'locId': locid, 'GeoName': None}
+            meta = {
+                'locId': locid, 'GeoName': 'Unspecified',
+                'latitude': parameters.parameters.get('CircleLatitude'),
+                'longitude': parameters.parameters.get('CircleLongitude')
+            }
             metas.append(meta)
             continue
 
@@ -291,6 +315,14 @@ def build_location_meta(geo_data, personal_checklists, location_data,
                         'latitude': location.latitude, 'longitude': location.longitude}
                 metas.append(meta)
                 break
+
+    # Add for L5551212
+    meta = {
+        'locId': 'L5551212', 'GeoName': 'Unspecified',
+        'latitude': parameters.parameters.get('CircleLatitude'),
+        'longitude': parameters.parameters.get('CircleLongitude')
+    }
+    metas.append(meta)
 
     location_meta = pd.DataFrame(metas)
 
