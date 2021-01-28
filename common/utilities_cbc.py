@@ -9,7 +9,7 @@ import pandas as pd
 
 CSV_EXTENSIONS = ['.csv', '.CSV']
 EXCEL_EXTENSIONS = ['.xlsx', '.XLSX']
-
+LEGACY_EXCEL_EXTENSIONS = ['.xls', '.XLS']
 
 def read_excel_or_csv(fdir: Path, name_base: str, xheader=0) -> pd.DataFrame:
     # Prefer Excel over CSV under the assumption that Excel file is a richer format
@@ -41,10 +41,13 @@ def read_excel_or_csv_path(fpath: Path, xheader=0) -> pd.DataFrame:
     result = pd.DataFrame()
 
     try:
-        if fpath.exists() and (fpath.suffix in EXCEL_EXTENSIONS):
-            result = pd.read_excel(fpath, header=xheader, engine="openpyxl").fillna('')
-        elif fpath.exists() and (fpath.suffix in CSV_EXTENSIONS):
-            result = pd.read_csv(fpath, dtype=str, header=xheader, low_memory=False).fillna('')
+        if fpath.exists():
+            if (fpath.suffix in EXCEL_EXTENSIONS):
+                result = pd.read_excel(fpath, header=xheader, engine="openpyxl").fillna('')
+            elif (fpath.suffix in LEGACY_EXCEL_EXTENSIONS):
+                result = pd.read_excel(fpath, header=xheader, engine="xlrd").fillna('')
+            elif (fpath.suffix in CSV_EXTENSIONS):
+                result = pd.read_csv(fpath, dtype=str, header=xheader, low_memory=False).fillna('')
 
     except Exception as ee:
         print(fpath, ee)
