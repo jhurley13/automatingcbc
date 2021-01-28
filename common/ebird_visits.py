@@ -95,15 +95,17 @@ def fix_total_column(checklist) -> pd.DataFrame:
 
 def transform_checklist_details(details: pd.DataFrame, taxonomy: Taxonomy) -> pd.DataFrame:
     # Circle/sector data kept in checklists_meta
-    cols_to_keep = ['locId', 'subId', 'userDisplayName', 'groupId',
+    cols_to_keep = [col for col in ['locId', 'subId', 'userDisplayName', 'groupId',
                     'speciesCode', 'obsDt', 'howManyStr', 'numObservers',
                     'effortDistanceKm', 'effortDistanceEnteredUnit', 'durationHrs',
-                    'comments']
+                    'comments'] if col in details.columns]
     personal_checklists = details.copy()[cols_to_keep]
 
-    personal_checklists.rename(columns={'userDisplayName': 'Name', 'howManyStr': 'Total',
-                                        'numObservers': 'Observers'},
-                               inplace=True)
+    rename_cols = ['userDisplayName', 'howManyStr', 'numObservers']
+    if all(elem in personal_checklists.columns for elem in rename_cols):
+        personal_checklists.rename(columns={'userDisplayName': 'Name', 'howManyStr': 'Total',
+                                            'numObservers': 'Observers'},
+                                   inplace=True)
     personal_checklists['CommonName'] = personal_checklists.speciesCode.apply(
         taxonomy.species6_to_common_name)
     personal_checklists.sort_values(by=['locId', 'Name'], inplace=True)
