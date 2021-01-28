@@ -24,6 +24,7 @@ from singleton_decorator import singleton
 
 from utilities_cbc import read_excel_or_csv_path
 from common_paths import *
+import pandas as pd
 
 # Parameters/Configuration
 
@@ -169,3 +170,16 @@ class Parameters(object):
             return False
 
         return True
+
+    @staticmethod
+    def prepare_parameters_from_file(parameters_df) -> pd.DataFrame:
+        # Do some manipulation on the data read in
+        # The file is transposed on disk for user convenience
+        parameters_df = parameters_df.T
+        cols = list(parameters_df.iloc[0].values)
+        parameters_df = parameters_df.drop([parameters_df.index[0]]).reset_index(drop=True)
+        parameters_df.columns = cols
+
+        parameters = parameters_df.iloc[0].to_dict()
+
+        return parameters
