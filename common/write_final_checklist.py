@@ -416,6 +416,13 @@ def write_final_checklist_spreadsheet(checklist, checklist_path: Path,
             fmt = col_info['format']
             worksheet.set_column(f'{xl_col_letter}:{xl_col_letter}', wid, fmt)
 
+        for col in non_standard_cols:
+            idx = list(checklist.columns).index(col)
+            xl_col_letter = excel_letters[idx]
+            wid = stripped_widths[col]
+            fmt = xlfmts[Xlformat.ACCOUNTING]
+            worksheet.set_column(f'{xl_col_letter}:{xl_col_letter}', wid, fmt)
+
         # https://xlsxwriter.readthedocs.io/worksheet.html#set_column
         for ix, col_info in colspec[colspec.hide].iterrows():
             xl_col_letter = col_info['xl_col_letter']
