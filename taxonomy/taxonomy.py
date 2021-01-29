@@ -19,6 +19,7 @@ from ebird_extras import EBirdExtra
 from taxonomy_clements import TaxonomyClements
 from taxonomy_ioc import TaxonomyIOC
 from taxonomy_nacc import TaxonomyNACC
+from taxonomy_aba import TaxonomyABA
 
 # Base Path
 
@@ -141,6 +142,7 @@ class Taxonomy(object):
         self._taxonomy_clements = None  # TaxonomyClements().get_taxonomy()
         self._taxonomy_ioc = None  # TaxonomyIOC().get_taxonomy()
         self._taxonomy_nacc = None  # TaxonomyNACC().get_taxonomy()
+        self._taxonomy_aba = None
         self._taxonomy_ebird = None
         self.INVALID_NACC_SORT_ORDER = 999999.1 # set again from NACC
 
@@ -228,6 +230,7 @@ class Taxonomy(object):
                 self._taxonomy_clements = TaxonomyClements().get_taxonomy()
                 self._taxonomy_ioc = TaxonomyIOC().get_taxonomy()
                 self._taxonomy_nacc = TaxonomyNACC().get_taxonomy()
+                self._taxonomy_aba = TaxonomyABA().get_taxonomy()
                 # Now merge in Clements, IOC and NACC checklists
                 self.taxonomy = self.merge_clements_into_taxonomy()
                 # print(f'clements: {self.taxonomy.shape}')
@@ -235,6 +238,7 @@ class Taxonomy(object):
                 # print(f'ioc: {self.taxonomy.shape}')
                 self.taxonomy = self.merge_nacc_into_taxonomy()
                 # print(f'nacc: {self.taxonomy.shape}')
+                self.taxonomy = self.merge_aba_into_taxonomy()
 
                 self.fix_up_merged_taxonomy()
                 # print(f'fixu: {self.taxonomy.shape}')
@@ -386,6 +390,14 @@ class Taxonomy(object):
                                             right_on='nacc_common_name', how='left').fillna('')
 
         return self.taxonomy
+
+    def merge_aba_into_taxonomy(self) -> pd.DataFrame:
+        self.taxonomy = self.taxonomy.merge(self._taxonomy_aba, left_on='comName',
+                                            right_on='aba_common_name', how='left').fillna('')
+
+        return self.taxonomy
+
+
 
     def get_nacc_taxonomy(self) -> pd.DataFrame:
         return self._taxonomy_nacc
