@@ -58,7 +58,8 @@ def merge_audubon_results(taxonomy: Taxonomy,
         #                                           local_translation_context)
         # df.CommonName = cleaned_common_names
         dfcl = dataframe_to_checklist(df, taxonomy, local_translation_context)
-        print(f'dfcl: {dfcl.shape}')
+
+        # print(f'dfcl: {dfcl.shape}')
         year = ci["Date"][0:4]
         fname = f'{ci["Code"]}-{year}-AudubonResults.xlsx'
         outpath = inputs_merge_path / fname
@@ -82,6 +83,8 @@ def merge_audubon_results(taxonomy: Taxonomy,
                                       cols_to_hide=cols_to_hide,
                                       cols_to_highlight=cols_to_highlight
                                       )
+
+    return summary, cols_to_hide, cols_to_highlight
 
 
 # ----------------- XLRD ---------------

@@ -24,7 +24,9 @@ def get_species_from_dataframe(df: pd.DataFrame) -> Tuple[pd.Series, pd.Series]:
 
     # Now look for the Total field
     total_names = ['Total', 'total', 'Number']
-    if any(df.columns.isin(total_names)):
+    if 'FrozenTotal' in df.columns:
+        totals = df.loc[0:species_is_blank.index(True), 'FrozenTotal':'FrozenTotal']
+    elif any(df.columns.isin(total_names)):
         totals_col_num = list(df.columns.isin(total_names)).index(True)
         # Totals might have zeros/blanks, so assume same length as species
         totals = df.iloc[0:species_is_blank.index(True), totals_col_num:totals_col_num + 1]
@@ -73,20 +75,21 @@ def dataframe_to_checklist(df: pd.DataFrame, taxonomy: Taxonomy,
                            local_translation_context: LocalTranslationContext):
     # Try to find the start of the species list
     if any(df.columns.isin(cn_names)):
-        species, totals = get_species_from_dataframe(df)
+        species, xtotals = get_species_from_dataframe(df)
     else:
-        species, totals = find_species_in_dataframe(df)
+        species, xtotals = find_species_in_dataframe(df)
 
-    totals.columns = ['Total']
-    totals['Total'] = totals['Total'].apply(sanitize_total).apply(
+    xtotals.columns = ['Total']
+    xtotals['Total'] = xtotals['Total'].apply(sanitize_total).apply(
         pd.to_numeric, errors='raise').fillna(0).astype(int)
 
-    results = pd.concat([species, totals], axis=1)
+    results = pd.concat([species, xtotals], axis=1)
     results.columns = ['CommonNameOrig', 'Total']
 
     # tx_results = results[results.Total > 0].copy().reset_index(drop=True)
     tx_results = results.copy().reset_index(drop=True)
 
+    tx_results.CommonNameOrig = tx_results.CommonNameOrig.fillna('')
     t2 = strip_off_scientific_names([secondary_species_processing(pre_process_line(line)
                                                                   ) for line in
                                      tx_results.CommonNameOrig.values], taxonomy)
