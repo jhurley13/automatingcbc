@@ -101,6 +101,7 @@ def create_row_for_missing_species(common_name: str,
     new_row['CommonName'] = common_name
     new_row['TaxonOrder'] = taxonomy_row.TAXON_ORDER
     new_row['NACC_SORT_ORDER'] = taxonomy_row.NACC_SORT_ORDER
+    new_row['ABA_SORT_ORDER'] = taxonomy_row.ABA_SORT_ORDER
     new_row['Category'] = taxonomy_row.Category
     # Filled in later. This is the "Grand Total", not the total from an individual checklist
     new_row['Total'] = 0
@@ -166,7 +167,7 @@ def create_ebird_summary(summary_base: pd.DataFrame,
         summary['Category'] = create_category_column(summary, taxonomy)
 
     std_columns = ['Group', 'CommonName', 'Rare', 'Total', 'FrozenTotal',
-                   'Category', 'TaxonOrder', 'NACC_SORT_ORDER']
+                   'Category', 'TaxonOrder', 'NACC_SORT_ORDER', 'ABA_SORT_ORDER']
     summary = summary[std_columns]
 
     # Sector checklists may have added species not on the template
@@ -327,6 +328,7 @@ def create_ebird_summary(summary_base: pd.DataFrame,
     totals_row['Group'] = 'Totals'
     totals_row['TaxonOrder'] = 99999
     totals_row['NACC_SORT_ORDER'] = taxonomy.INVALID_NACC_SORT_ORDER
+    totals_row['ABA_SORT_ORDER'] = taxonomy.INVALID_NACC_SORT_ORDER
 
     # Formula for Grand Total, e.g. =SUM($D$2:$D$245)
     total_col_letter = col_letters[std_columns.index('Total')]

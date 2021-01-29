@@ -15,7 +15,6 @@ from write_final_checklist import write_final_checklist_spreadsheet, \
 from parameters import Parameters
 
 
-
 # mergable_filetypes = ['.xlsx', '.csv']
 # possible_paths = {px.resolve() for px in Path(merge_inputs_path).glob("*") if
 #                   px.suffix in mergable_filetypes and not px.stem.startswith('~$')}
@@ -226,12 +225,17 @@ def merge_checklists(summary_base: Any,
             so = record.NACC_SORT_ORDER if record.NACC_SORT_ORDER != 0 else \
                 taxonomy.INVALID_NACC_SORT_ORDER
             summary.at[idx, 'NACC_SORT_ORDER'] = so
+            so = record.ABA_SORT_ORDER if record.ABA_SORT_ORDER != 0 else \
+                taxonomy.INVALID_NACC_SORT_ORDER
+            summary.at[idx, 'ABA_SORT_ORDER'] = so
             summary.at[idx, 'Category'] = record.Category
 
     # Re-sort by TaxonOrder
     # Must sort before creating formulae for Total
     so = pd.to_numeric(summary.NACC_SORT_ORDER, errors='coerce')
     summary.NACC_SORT_ORDER = pd.Series(so).fillna(taxonomy.INVALID_NACC_SORT_ORDER)
+    so = pd.to_numeric(summary.ABA_SORT_ORDER, errors='coerce')
+    summary.ABA_SORT_ORDER = pd.Series(so).fillna(taxonomy.INVALID_NACC_SORT_ORDER)
 
     try:
         summary = summary.sort_values(by=['NACC_SORT_ORDER']).reset_index(drop=True)
@@ -247,7 +251,7 @@ def merge_checklists(summary_base: Any,
     col_letters = excel_columns()
     #     team_start_col = col_letters[len(base_columns)]
     std_columns = ['Group', 'CommonName', 'Rare', 'Total', 'Category', 'TaxonOrder',
-                   'NACC_SORT_ORDER']
+                   'NACC_SORT_ORDER', 'ABA_SORT_ORDER']
     # Filter out any missing columns
     std_columns = [col for col in std_columns if col in summary.columns]
     # team_start_col = col_letters[index_of_first_subtotal_column(summary)]
@@ -262,6 +266,7 @@ def merge_checklists(summary_base: Any,
     totals_row['Group'] = 'Totals'
     totals_row['TaxonOrder'] = 99999
     totals_row['NACC_SORT_ORDER'] = taxonomy.INVALID_NACC_SORT_ORDER
+    totals_row['ABA_SORT_ORDER'] = taxonomy.INVALID_NACC_SORT_ORDER
 
     # Formula for Grand Total, e.g. =SUM($D$2:$D$245)
     total_col_letter = col_letters[std_columns.index('Total')]
@@ -285,8 +290,9 @@ def merge_checklists(summary_base: Any,
     # print(sector_cols)
     # print(summary.columns)
 
-    new_col_order =  [col for col in ['Group', 'CommonName', 'Rare', 'Total',
-                     'Category', 'TaxonOrder', 'NACC_SORT_ORDER'] if col in summary.columns]
+    new_col_order = [col for col in ['Group', 'CommonName', 'Rare', 'Total',
+                                     'Category', 'TaxonOrder',
+                                     'NACC_SORT_ORDER', 'ABA_SORT_ORDER'] if col in summary.columns]
     new_col_order.extend(sector_cols)
     summary = summary[new_col_order]
 

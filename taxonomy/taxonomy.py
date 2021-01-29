@@ -144,7 +144,7 @@ class Taxonomy(object):
         self._taxonomy_nacc = None  # TaxonomyNACC().get_taxonomy()
         self._taxonomy_aba = None
         self._taxonomy_ebird = None
-        self.INVALID_NACC_SORT_ORDER = 999999.1 # set again from NACC
+        self.INVALID_NACC_SORT_ORDER = 999999.1  # set again from NACC
 
         self.taxonomy = self.get_taxonomy_cached()
 
@@ -182,7 +182,7 @@ class Taxonomy(object):
             'ioc_common_name': str, 'ioc_clements_seq': int,
             'ioc_clements_scientific_name': str,
             'ioc_clements_common_name': str, 'ioc_range': str, 'NACC_SORT_ORDER': float,
-            'nacc_id': str,
+            'ABA_SORT_ORDER': float, 'nacc_id': str,
             'nacc_avibase_id': str, 'nacc_rank': str, 'nacc_common_name': str, 'nacc_order': str,
             'nacc_family': str, 'nacc_subfamily': str, 'nacc_genus': str, 'nacc_species': str,
             'nacc_common_name_lower': str
@@ -191,6 +191,7 @@ class Taxonomy(object):
         self.taxonomy.ioc_seq = self.taxonomy.ioc_seq.replace('', 0)
         self.taxonomy.ioc_clements_seq = self.taxonomy.ioc_clements_seq.replace('', 0)
         self.taxonomy.NACC_SORT_ORDER = self.taxonomy.NACC_SORT_ORDER.replace('', 0.0)
+        self.taxonomy.ABA_SORT_ORDER = self.taxonomy.ABA_SORT_ORDER.replace('', 0.0)
 
         self.taxonomy = self.taxonomy.astype(dtype=xdtypes)
 
@@ -206,8 +207,6 @@ class Taxonomy(object):
         #
         # for col in colnames_numerics_only:
         #     self.taxonomy[col] = self.taxonomy[col].astype(int)
-
-
 
     # for col in self.taxonomy.columns:
     #     newtype = xdtypes.get(col, str)
@@ -334,7 +333,6 @@ class Taxonomy(object):
 
         return record
 
-
     # @property
     # def local_to_ebird_translations(self):
     #     return self._local_to_ebird_translations
@@ -399,18 +397,16 @@ class Taxonomy(object):
 
         return self.taxonomy
 
-
-
     def get_nacc_taxonomy(self) -> pd.DataFrame:
         return self._taxonomy_nacc
 
     # -------------------------------- NACC Ordering --------------------------------------------
 
     @staticmethod
-    def identify_family_sort_orders(family: pd.DataFrame) -> list:
+    def identify_family_sort_orders(family: pd.DataFrame, sort_col: str) -> list:
         # family e.g. 'Grebes'
         need_order = family[family.Category != 'species']
-        family_species = family[family.Category == 'species'] #.reset_index(drop=True)
+        family_species = family[family.Category == 'species']  # .reset_index(drop=True)
         sort_orders = []
         base_sort_order = 0
 
@@ -418,7 +414,7 @@ class Taxonomy(object):
             try:
                 base_sort_order = 0
                 if row.Category == 'spuh':
-                    base_sort_order = max(family.NACC_SORT_ORDER)
+                    base_sort_order = max(family[sort_col])
                 else:
                     bc_mask = [len(row.comname_codes & bc) > 0 for bc in
                                family_species.banding_codes]
@@ -430,7 +426,7 @@ class Taxonomy(object):
                         mask = cn_mask or bc_mask
                     parents = family_species[mask]
                     if not parents.empty:
-                        base_sort_order = max(parents.NACC_SORT_ORDER)
+                        base_sort_order = max(parents[sort_col])
 
                 # "diurnal raptor sp." is weird
                 if not isinstance(base_sort_order, numbers.Number):
@@ -438,7 +434,7 @@ class Taxonomy(object):
 
                 if base_sort_order > 0:
                     sort_orders.append({'comNameLower': row.comNameLower,
-                                        'NACC_SORT_ORDER': base_sort_order,
+                                        sort_col: base_sort_order,
                                         'Category': row.Category})
 
             except Exception as ee:
@@ -464,8 +460,8 @@ class Taxonomy(object):
         for ix, group in enumerate(self.taxonomy.groupby(['order', 'familyComName'])):
             fam_order, grp = group
             # order, family = fam_order
-            familydf = grp #.reset_index(drop=True)
-            grp_sort_orders = self.identify_family_sort_orders(familydf)
+            familydf = grp  # .reset_index(drop=True)
+            grp_sort_orders = self.identify_family_sort_orders(familydf, sort_col)
             sort_orders.extend(grp_sort_orders)
 
         # print(f'len(sort_orders): {len(sort_orders)}')
@@ -504,8 +500,7 @@ class Taxonomy(object):
 
         return orders.radd(addends)
 
-   # -------------------------------- ISSF Helpers --------------------------------------------
-
+    # -------------------------------- ISSF Helpers --------------------------------------------
 
     # https://support.ebird.org/en/support/solutions/articles/48000837816-the-ebird-taxonomy
     # Subspecies (ISSF or Identifiable Sub-specific Group): Identifiable subspecies or group

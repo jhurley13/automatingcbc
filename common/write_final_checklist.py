@@ -231,13 +231,14 @@ def write_final_checklist_spreadsheet(checklist, checklist_path: Path,
                          x.rstrip() in cols_to_hide] if cols_to_hide else []
     real_cols_to_highlight = [x for x in checklist.columns if x.rstrip() in cols_to_highlight] \
         if cols_to_highlight else []
-    cols_to_center = ['R', 'Total', 'TaxonOrder', 'Rare', 'Category', 'NACC_SORT_ORDER']
+    cols_to_center = ['R', 'Total', 'TaxonOrder', 'Rare', 'Category', 'NACC_SORT_ORDER',
+                      'ABA_SORT_ORDER']
     stripped_widths = {'Group': 20, 'CommonName': 40, 'R': 5, 'Total': 7, 'TaxonOrder': 8,
                        'LocalName': 35, 'may_need_writeup': 35, 'Rare': 10,
                        'D': 3, 'Adult': 6, 'Immature': 6, 'W-morph': 6, 'B-Morph': 6,
                        'Difficulty': 6, 'Adult/White': 11, 'Immature/Blue': 11,
                        'Ad': 3, 'Im': 3, 'CountSpecial': 3,
-                       'Category': 10, 'NACC_SORT_ORDER': 8}
+                       'Category': 10, 'NACC_SORT_ORDER': 8, 'ABA_SORT_ORDER': 8}
     xl_last_data_row = checklist.shape[0] + 1  # plus 1 is because data starts at row 2
 
     fill_values = {'Group': '', 'CommonName': '', 'Rare': '', 'TaxonOrder': 99999,
@@ -246,7 +247,7 @@ def write_final_checklist_spreadsheet(checklist, checklist_path: Path,
 
     # Probably sector names
     standard_cols_base = ['CommonName', 'LocalName', 'Group',
-                          'Category', 'TaxonOrder', 'NACC_SORT_ORDER', 'Total']
+                          'Category', 'TaxonOrder', 'NACC_SORT_ORDER', 'ABA_SORT_ORDER', 'Total']
     standard_cols = standard_cols_base.copy()
     for col in standard_cols_base:
         standard_cols.append(col + ' ')
@@ -462,8 +463,6 @@ def write_final_checklist_spreadsheet(checklist, checklist_path: Path,
                     fmt = xlfmts[Xlformat.CENTER] if col in center_cols else None
                     worksheet.set_column(f'{col_letter}:{col_letter}', wid, fmt)
 
-
-
                 # Set the width, and other properties of a row
                 # row (int) – The worksheet row (zero indexed).
                 # height (float) – The row height.
@@ -514,7 +513,8 @@ def write_local_checklist_with_group(updated_checklist, output_file_path, parame
         local2_df = expand_group_rows(updated_checklist)
 
         preferred_order = ['Group', 'CommonName', 'Rare', 'D', 'Total', 'Ad', 'Im',
-                           'Category', 'TaxonOrder', 'NACC_SORT_ORDER', 'Difficulty',
+                           'Category', 'TaxonOrder', 'NACC_SORT_ORDER', 'ABA_SORT_ORDER',
+                           'Difficulty',
                            'Adult', 'Immature', 'W-morph', 'B-Morph', 'CountSpecial']
         # ToDo: use filter()
         newcols = [col for col in preferred_order if col in local2_df.columns]
@@ -530,7 +530,7 @@ def write_local_checklist_with_group(updated_checklist, output_file_path, parame
         # if page_breaks:
         #     parameters['page_breaks'] = page_breaks
 
-        cols_to_hide = ['Category', 'TaxonOrder', 'NACC_SORT_ORDER', 'Rare',
+        cols_to_hide = ['Category', 'TaxonOrder', 'NACC_SORT_ORDER', 'ABA_SORT_ORDER', 'Rare',
                         'Adult', 'Immature', 'W-morph', 'B-Morph',
                         'Difficulty', 'CountSpecial']
         write_final_checklist_spreadsheet(local3_df, output_file_path,
@@ -877,6 +877,7 @@ def sheet_info_for_filers(df: pd.DataFrame) -> dict:
     }
 
     return sheet_info
+
 
 def sheet_info_for_locations(df: pd.DataFrame) -> dict:
     # ['locId', 'Name', 'LocationName']

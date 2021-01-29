@@ -211,14 +211,15 @@ def build_full_tally_sheet(double_translated,
         if record is not None:
             # e.g. ('White-throated Sparrow', 31943, 'New World Sparrows', 1848.0)
             entry = (record.comName, record.TAXON_ORDER, record.SPECIES_GROUP,
-                     record.NACC_SORT_ORDER, '', 0)  # append 'Rare', 'Total'
+                     record.NACC_SORT_ORDER, record.ABA_SORT_ORDER, '', 0)  # append 'Rare', 'Total'
             entries.append(entry)
 
     df = pd.DataFrame(entries, columns=['CommonName', 'TaxonOrder', 'Group',
-                                        'NACC_SORT_ORDER', 'Rare', 'Total'])
+                                        'NACC_SORT_ORDER', 'ABA_SORT_ORDER', 'Rare', 'Total'])
 
     # Re-order
-    cols = ['Group', 'CommonName', 'Rare', 'Total', 'TaxonOrder', 'NACC_SORT_ORDER']
+    cols = ['Group', 'CommonName', 'Rare', 'Total', 'TaxonOrder',
+            'NACC_SORT_ORDER', 'ABA_SORT_ORDER']
     local_checklist = df[cols]
     local_checklist.sort_values(by='TaxonOrder', inplace=True)
     #     local_checklist.shape
@@ -231,7 +232,7 @@ def build_full_tally_sheet(double_translated,
 
     # Re-order columns
     preferred_order = ['Group', 'CommonName', 'Rare', 'D', 'Total', 'Ad', 'Im',
-                       'TaxonOrder', 'NACC_SORT_ORDER', 'Difficulty',
+                       'TaxonOrder', 'NACC_SORT_ORDER', 'ABA_SORT_ORDER', 'Difficulty',
                        'Adult', 'Immature', 'W-morph', 'B-Morph', 'CountSpecial']
     newcols = [col for col in preferred_order if col in local_checklist.columns]
     local_checklist = local_checklist[newcols]
