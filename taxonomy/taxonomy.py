@@ -244,7 +244,9 @@ class Taxonomy(object):
                 # print(f'fixu: {self.taxonomy.shape}')
 
                 print('Adding synthesized NACC sort orders')
-                self.add_synthesized_nacc_sort_orders()
+                self.add_synthesized_sort_orders('NACC_SORT_ORDER')
+                print('Adding synthesized ABA sort orders')
+                self.add_synthesized_sort_orders('ABA_SORT_ORDER')
 
                 self.taxonomy.to_csv(cached_taxonomy_path, index=False)
                 print(f'Written to cache: {self.taxonomy.shape[0]} records')
@@ -448,9 +450,9 @@ class Taxonomy(object):
 
         return sort_orders
 
-    def add_synthesized_nacc_sort_orders(self):
+    def add_synthesized_sort_orders(self, sort_col: str):
         # Only species have NACC sort orders, so make up some for issf, slash, etc.
-        # this takes 16s to run, so try to cache results
+        # this takes 16s to run, so try to cache results. Same for ABA
 
         # SECURITY WARNING: using eval. Trust your taxonomy file.
         # These columns contain Python objects, so not appropriate for CSV file
@@ -470,9 +472,9 @@ class Taxonomy(object):
         sort_orders_df = pd.DataFrame(sort_orders)
 
         # print(f'sort_orders_df: {sort_orders_df.columns}')
-        addl_sort_orders = sort_orders_df.groupby('NACC_SORT_ORDER').NACC_SORT_ORDER.transform(
+        addl_sort_orders = sort_orders_df.groupby(sort_col)[sort_col].transform(
             self.smear_orders)
-        sort_orders_df = sort_orders_df.assign(NACC_SORT_ORDER=addl_sort_orders)
+        sort_orders_df = sort_orders_df.assign(sort_col=addl_sort_orders)
 
         # Now set those rows in taxonomy
         # mask = [(cn in list(sort_orders_df.comNameLower)) for cn in self.taxonomy.comNameLower]
@@ -480,7 +482,8 @@ class Taxonomy(object):
 
         # Crappy way, the proper way is eluding me
         for ix, row in sort_orders_df.iterrows():
-            self.taxonomy.loc[self.taxonomy.comNameLower == row.comNameLower, 'NACC_SORT_ORDER'] = row.NACC_SORT_ORDER
+            self.taxonomy.loc[self.taxonomy.comNameLower == row.comNameLower,
+                              sort_col] = row[sort_col]
 
         # Cleanup
         self.taxonomy.drop(labels=['banding_codes', 'comname_codes'], axis=1, inplace=True)
