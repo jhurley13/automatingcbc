@@ -140,7 +140,7 @@ def process_annotations_or_rarities(checklist: pd.DataFrame,
 
     annotations_dir = checklist_path.parent
     annotations_path = annotations_dir / f'{circle_prefix}Annotations.xlsx'
-    print(f'Annotations path: {annotations_path}')
+    # print(f'Annotations path: {annotations_path}')
 
     if annotations_path.exists():
         return process_annotations(checklist, annotations_path)
@@ -167,12 +167,12 @@ def process_exceptions(candidate_names: List[str], checklist_path: Path,
     exceptions_dir = checklist_path.parent
 
     exceptions_path = exceptions_dir / f'{circle_prefix}Exceptions.xlsx'
-    print(f'Exceptions path: {exceptions_path}')
+    # print(f'Exceptions path: {exceptions_path}')
 
     if not exceptions_path.exists():
         return candidate_names
 
-    print(f'Exceptions: {exceptions_path}')
+    # print(f'Exceptions: {exceptions_path}')
     exceptions_df = read_excel_or_csv_path(exceptions_path)
     if exceptions_df.empty:
         return candidate_names
@@ -268,7 +268,8 @@ def process_checklist(checklist_path: Path,
                       taxonomy: Taxonomy,
                       local_translation_context: LocalTranslationContext,
                       parameters: Parameters,
-                      circle_prefix: str
+                      circle_prefix: str,
+                      single_path: str = None
                       ):
     """
     - Extract text
@@ -331,7 +332,9 @@ def process_checklist(checklist_path: Path,
     # used as the template for the Service-ProcessEBird phase
     # don't use circle_prefix here
     circle_abbrev = circle_abbrev_from_path(checklist_path)
-    single_path = output_dir / f'{circle_abbrev}-Single.xlsx'
+    skip_additional_processing = bool(single_path)
+    if not single_path:
+        single_path = output_dir / f'{circle_abbrev}-Single.xlsx'
     write_final_checklist_spreadsheet(local_checklist,
                                       single_path,
                                       parameters.parameters,
@@ -339,47 +342,48 @@ def process_checklist(checklist_path: Path,
                                       cols_to_hide=cols_to_hide,
                                       cols_to_highlight=['Total'])
 
-    # Write out an empty annotations file if none exists
-    annotations_path = inputs_parse_path / f'{circle_prefix}Annotations.xlsx'
-    if not annotations_path.exists():
-        print(f'Creating empty annotations file: {annotations_path.as_posix()}')
-        annotations = local_checklist.copy()
-        for col in ['Rare', 'Adult', 'Immature', 'Easy', 'Marginal', 'Difficult']:
-            annotations[col] = ''
-        write_final_checklist_spreadsheet(annotations,
-                                          annotations_path,
-                                          parameters.parameters,
-                                          additional_sheets=None,
-                                          cols_to_hide=None,
-                                          cols_to_highlight=None)
+    if not skip_additional_processing:
+        # Write out an empty annotations file if none exists
+        annotations_path = inputs_parse_path / f'{circle_prefix}Annotations.xlsx'
+        if not annotations_path.exists():
+            print(f'Creating empty annotations file: {annotations_path.as_posix()}')
+            annotations = local_checklist.copy()
+            for col in ['Rare', 'Adult', 'Immature', 'Easy', 'Marginal', 'Difficult']:
+                annotations[col] = ''
+            write_final_checklist_spreadsheet(annotations,
+                                              annotations_path,
+                                              parameters.parameters,
+                                              additional_sheets=None,
+                                              cols_to_hide=None,
+                                              cols_to_highlight=None)
 
-    exceptions_path = inputs_parse_path / f'{circle_prefix}Exceptions.xlsx'
-    if not exceptions_path.exists():
-        print(f'Creating empty exceptions file: {exceptions_path.as_posix()}')
-        empty_exceptions = pd.DataFrame(
-            {'CommonName': '', 'Add': '', 'Subtract': '', 'Comments': ''},
-            index=range(20))  # Adding rows to a table is a pain in Excel, give some room
+        exceptions_path = inputs_parse_path / f'{circle_prefix}Exceptions.xlsx'
+        if not exceptions_path.exists():
+            print(f'Creating empty exceptions file: {exceptions_path.as_posix()}')
+            empty_exceptions = pd.DataFrame(
+                {'CommonName': '', 'Add': '', 'Subtract': '', 'Comments': ''},
+                index=range(20))  # Adding rows to a table is a pain in Excel, give some room
 
-        write_basic_spreadsheet(empty_exceptions, exceptions_path,
-                                column_widths={'CommonName': 30, 'Add': 11,
-                                               'Subtract': 11, 'Comments': 50},
-                                columns_to_center=['Add', 'Subtract'])
+            write_basic_spreadsheet(empty_exceptions, exceptions_path,
+                                    column_widths={'CommonName': 30, 'Add': 11,
+                                                   'Subtract': 11, 'Comments': 50},
+                                    columns_to_center=['Add', 'Subtract'])
 
-    double_path = output_dir / f'{circle_abbrev}-Double.xlsx'
-    write_local_checklist_with_group(local_checklist, double_path, parameters.parameters)
-    ground_truths_df = ground_truth_for_code(circle_abbrev)
-    if not ground_truths_df.empty:
-        _ = check_against_ground_truth(local_checklist, ground_truths_df)
+        double_path = output_dir / f'{circle_abbrev}-Double.xlsx'
+        write_local_checklist_with_group(local_checklist, double_path, parameters.parameters)
+        ground_truths_df = ground_truth_for_code(circle_abbrev)
+        if not ground_truths_df.empty:
+            _ = check_against_ground_truth(local_checklist, ground_truths_df)
 
-    categorized_lines = categorize_lines(circle_abbrev, text_list,
-                                         local_translation_context, tti)
+        categorized_lines = categorize_lines(circle_abbrev, text_list,
+                                             local_translation_context, tti)
 
-    write_categorized_lines_spreadsheet(categorized_lines,
-                                        debug_path / f'{circle_abbrev}-categorized_lines.xlsx',
-                                        col_widths=[40, 40, 11, 16],
-                                        col_align=['left', 'left', 'center', 'center'],
-                                        sheet_name='Categorized Lines',
-                                        )
+        write_categorized_lines_spreadsheet(categorized_lines,
+                                            debug_path / f'{circle_abbrev}-categorized_lines.xlsx',
+                                            col_widths=[40, 40, 11, 16],
+                                            col_align=['left', 'left', 'center', 'center'],
+                                            sheet_name='Categorized Lines',
+                                            )
 
     return text_list, double_translated, local_checklist
 
@@ -547,7 +551,7 @@ def load_annotations(annotations_path: Path) -> pd.DataFrame:
     # Check for an annotations file
     annotations = pd.DataFrame()
     if annotations_path.exists():
-        print(f'Annotations: {annotations_path}')
+        # print(f'Annotations: {annotations_path}')
 
         annotations = read_excel_or_csv_path(annotations_path)
 
