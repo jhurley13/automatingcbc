@@ -122,6 +122,7 @@ def process_additional_checklist(additional_files: Optional[Dict[str, List[Path]
         for fpath in fpaths:
             checklist = raw_csv_to_checklist(fpath, taxonomy, local_translation_context,
                                              name, xdates)
+            print(fpath, checklist.shape)
             if checklist is not None and not checklist.empty:
                 additional_checklists.append(checklist)
 
@@ -131,15 +132,16 @@ def process_additional_checklist(additional_files: Optional[Dict[str, List[Path]
     return personal_checklists_x
 
 
-def additional_count_checklists(circle_prefix: str, xdates: List[str],
+def additional_count_checklists(circle_prefix: Optional[str], xdates: List[str],
                                 taxonomy: Taxonomy,
                                 personal_checklists) -> pd.DataFrame:
     additional_files = {}
     for fpath in inputs_count_path.glob('*.csv'):
-        if not fpath.stem.startswith(circle_prefix):
+        if circle_prefix and not fpath.stem.startswith(circle_prefix):
             continue
         name = fpath.stem
-        name.replace(circle_prefix, '')
+        if circle_prefix:
+            name.replace(circle_prefix, '')
         additional_files[name] = [fpath]
 
     if bool(additional_files):
@@ -161,7 +163,7 @@ def process_additional_subids(circle_prefix: str, date_of_count: str) \
     if additional_subids_path.exists():
         with open(additional_subids_path, 'r', encoding="utf-8") as fp:
             text = fp.read()
-            subids = [xs.strip() for xs in text.split(',')]
+            subids = [xs.strip() for xs in text.split('\n') if len(xs.strip())]
             subids_by_date[date_of_count] = subids
 
     return subids_by_date if bool(subids_by_date) else None
