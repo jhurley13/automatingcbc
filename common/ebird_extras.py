@@ -151,7 +151,7 @@ class EBirdExtra(object):
         results = pd.DataFrame()
         try:
             api_url_base = 'https://api.ebird.org/v2/product/spplist'
-            api_auth_header = {'X-eBirdApiToken': self.ebird_api_key}
+            api_auth_header = {'X-eBirdApiToken': self.__ebird_api_key}
             url = f'{api_url_base}/{loc_id}'
 
             rr = requests.get(url, params=None, headers=api_auth_header, stream=True)
@@ -430,6 +430,8 @@ class EBirdExtra(object):
                     # turning this into a dataframe directly
                     if 'subAux' in cdict.keys():
                         del cdict['subAux']
+                    if 'subAuxAi' in cdict.keys():
+                        del cdict['subAuxAi']
                     checklist = pd.DataFrame(cdict)
                     # Not every checklist has groupId, so add if not there
                     # We need it later for detecting duplicate checklists (e.g. shared)
@@ -452,6 +454,7 @@ class EBirdExtra(object):
 
         except Exception as ee:
             print(ee)
+            print(cdict)
             traceback.print_exc(file=sys.stdout)
 
         return details
