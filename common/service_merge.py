@@ -3,6 +3,7 @@ import pandas as pd
 import sys
 import traceback
 import re
+import numpy as np
 
 from utilities_cbc import read_excel_or_csv_path
 from common_paths import *
@@ -262,20 +263,36 @@ def merge_checklists(summary_base: Any,
     std_columns = [col for col in std_columns if col in summary.columns]
     # team_start_col = col_letters[index_of_first_subtotal_column(summary)]
     sector_start_idx = len(std_columns) + 1
-    sector_end_idx = len(summary.columns) - 2
+    sector_end_idx = sector_start_idx + len(sector_cols) - 1
+
     sector_start_col = col_letters[sector_start_idx]
     sector_end_col = col_letters[sector_end_idx]
     total_formula = [f'=SUM(${sector_start_col}{ix}:${sector_end_col}{ix})' for ix in
                      range(2, summary.shape[0] + 2)]
     summary['Total'] = total_formula
 
-    # print(sector_start_idx, sector_end_idx)
-    summary_total = summary.iloc[:, sector_start_idx:sector_end_idx + 1].apply(
-        pd.to_numeric).fillna(
-        0).sum(axis=1).astype(int)
+    global gsummary
+    gsummary = summary
+    # display(summary.iloc[:, sector_start_idx:sector_end_idx + 1])
+    # # print(df[pd.to_numeric(df.col, errors='coerce').isnull()])
+    #
+    # print(summary.iloc[:, sector_start_idx:sector_end_idx + 1].apply(lambda x: isinstance(x, str)))
+    #
+    #
+    # summary_total = summary.iloc[:, sector_start_idx:sector_end_idx + 1].replace('X', np.nan)
+    # summary_total = summary_total.apply(
+    #     pd.to_numeric(args=("errors='coerce',")).fillna(0).sum(axis=1).astype(int))
+
+    try:
+        summary_total = summary.iloc[:, sector_start_idx:sector_end_idx + 1].apply(
+            pd.to_numeric, errors='coerce').fillna(
+            0).sum(axis=1).astype(int)
+    except TypeError as te:
+        print(te)
+        traceback.print_exc(file=sys.stdout)
+        return summary
+
     summary['FrozenTotal'] = summary_total
-    # print(f'total cols: {summary.columns[sector_start_idx:sector_end_idx]}')
-    # print(list(summary_total))
 
     # Add last row for Total and each Sector total
     totals_row = pd.Series([''] * len(summary.columns), index=summary.columns)
@@ -288,6 +305,8 @@ def merge_checklists(summary_base: Any,
     total_col_letter = col_letters[std_columns.index('Total')]
     total_formula = f'=SUM(${total_col_letter}2:${total_col_letter}{summary.shape[0] + 1})'
     totals_row.Total = total_formula
+    # print(total_formula) ####
+    # print(summary.shape)  ###
 
     # sector_cols = [xs for xs in summary.columns if xs.startswith('Sector')]
     sector_totals = summary[sector_cols].apply(pd.to_numeric).fillna(0).sum(axis=0).astype(int)

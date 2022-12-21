@@ -282,6 +282,10 @@ def create_ebird_summary(summary_base: pd.DataFrame,
     sum_end_col = col_letters[sum_end_index]
     # Start template for total with non-duplicate columns
     sum_formula_template = f'=SUM(${sum_start_col}INDEX:${sum_end_col}INDEX)'
+    # print(sum_formula_template)
+
+    # Can end up with formula like:
+    #    =SUM($J2:$L2)+MAX($M2:$R2)
 
     header_cell_groups = []
     max_formula_totals = []
