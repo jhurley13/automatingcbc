@@ -17,6 +17,7 @@ from taxonomy import Taxonomy
 from text_transform import clean_common_names
 from utilities_cbc import read_excel_or_csv_path
 
+import random
 
 # Now for Bob Hirt
 def raw_csv_to_checklist(fpath: Path,
@@ -57,8 +58,11 @@ def csv_dataframe_to_checklist(checklist: pd.DataFrame,
     checklist = checklist.astype(dtype=xdtypes)
 
     checklist['speciesCode'] = [taxonomy.find_species6_ebird(cn) for cn in checklist.CommonName]
-    checklist['locId'] = 'L5551212'
-    checklist['subId'] = 'S5551212'
+
+    # Was L5551212
+    randid = random.randrange(95550000, 95559999)
+    checklist['locId'] = f'L{randid}'
+    checklist['subId'] = f'S{randid}'
     checklist['groupId'] = ''
     checklist['durationHrs'] = 0.5
     checklist['effortDistanceKm'] = 0.1
