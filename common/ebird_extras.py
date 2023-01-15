@@ -272,9 +272,17 @@ class EBirdExtra(object):
         return visits_expanded
 
     def get_checklist(self, sub_id: str):
-        return self.ebird_client.get_checklist(sub_id)
+        try:
+            rx = self.ebird_client.get_checklist(sub_id)
+        except Exception as ee:
+            print(f'sub_id: {sub_id}')
+            print(ee)
+            traceback.print_exc(file=sys.stdout)
+            raise
 
-    # --------------------------- HOTSPOTS ---------------------------
+        return rx
+
+        # --------------------------- HOTSPOTS ---------------------------
 
     def get_hotspots(self, region_codes: List[str]):
         # was: hotspot_data_for_regions
@@ -422,6 +430,7 @@ class EBirdExtra(object):
             if not details_path.exists():
                 detailed_checklists = []
                 for subid in subids:
+                    # print(f'subid: {subid}')
                     cdict = self.get_checklist(subid)
                     # if cdict is None:
                     #     continue
