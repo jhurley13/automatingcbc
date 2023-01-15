@@ -55,7 +55,12 @@ def csv_dataframe_to_checklist(checklist: pd.DataFrame,
     # This will get switched back by transform_checklist_details
     checklist.rename(columns={'Total': 'howManyStr'}, inplace=True)
     xdtypes = {'CommonName': str, 'howManyStr': int}
-    checklist = checklist.astype(dtype=xdtypes)
+    try:
+        checklist = checklist.astype(dtype=xdtypes)
+    except Exception as ee:
+        display(checklist)
+        print(ee)
+        raise
 
     checklist['speciesCode'] = [taxonomy.find_species6_ebird(cn) for cn in checklist.CommonName]
 
