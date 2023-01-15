@@ -120,9 +120,10 @@ def process_additional_checklist(additional_files: Optional[Dict[str, List[Path]
     local_translation_context = LocalTranslationContext()
     for name, fpaths in additional_files.items():
         for fpath in fpaths:
+            print(f'Processing: {fpath}')
             checklist = raw_csv_to_checklist(fpath, taxonomy, local_translation_context,
                                              name, xdates)
-            print(fpath, checklist.shape)
+            print(f'\tchecklist.shape: {checklist.shape}')
             if checklist is not None and not checklist.empty:
                 additional_checklists.append(checklist)
 
@@ -202,6 +203,7 @@ def get_personal_checklist_details(visits: pd.DataFrame,
                 sid.extend(additional_for_date)
                 subids_by_date[xdate] = sid
 
+    # print(subids_by_date)
     # Now call eBird API to get details for subids
     details = ebird_extra.get_details_for_dates(subids_by_date, xdates)
     personal_checklists = transform_checklist_details(details, taxonomy)
