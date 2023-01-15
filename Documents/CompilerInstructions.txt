@@ -1,0 +1,60 @@
+Compiler Instructions
+
+- Please provide a checklist for your circle. 
+	- This can be plain text, Excel or a PDF.
+	- It does not have to be in any particular sort order.
+	- Preferred name: {circle-code}-{year}-checklist.pdf , e.g. CASJ-2022-checklist.pdf
+	
+- A plain text file with species that require a writeup
+	- Preferred name: {circle-code}-2022-Rarities.txt , e.g. CACR-2022-Rarities.txt
+
+Sector Leader Instructions
+
+Please send the compiler the eBird name of anyone who is filing a checklist for the count.
+This is needed so we can distinguish people officially on the count from other birders
+also birding on count day. 
+
+In addition when submitting the checklist, indicate the number of people in the party (through eBird),
+and promptly share the list with others. This allows us to automatically capture party members.
+
+
+IMPORTANT NOTE: I forgot to mention this before, but the program works by
+counting submitted checklists that intersect with the count circle. This could
+include people not officially doing the count. I shouldn’t double count, since I
+notice if two checklist for the same area are filed (I take the MAX species
+count). If you send me a list of participants (can be everyone or just the ones
+who submitted official eBird lists), I will filter out other reports.
+
+SEEING SPECIES TOTAL
+Looks like a total of 122 species were reported across all sectors. To see that, do the following:
+- in the Total column of the CACR-CountCircleSummary.xlsx file, filter and uncheck ‘0’
+- in the Category column, set it so that only ’species’ is checked
+- Select the shown entries in one column, e.g. Total. I selected from Snow Goose to Western Tanager, then I see “Count: 122” in the lower right corner
+
+--------------------------------------------------------
+My Instructions
+
+Parameters file is required:
+	~/xdevelopment/birding/automatingcbc/parameters/Local/CACR-2022-Parameters.xlsx
+
+--------------------------------------------------------
+These were on CACR list last year:
+Red-necked Grebe
+Red-tailed Hawk (Harlan's)
+Solitary Sandpiper
+Western Gull
+Greater Roadrunner
+Canyon Wren
+Western Tanager
+
+
+
+--------------------------------------------------------
+Schedule of 2022/23 and recap of 2021/22
+California Christmas Bird Counts
+DECEMBER 14, 2022 - JANUARY 5, 2023
+https://www.natureali.org/cbcs.htm
+--------------------------------------------------------
+
+
+https://santacruzbirdclub.org/2019/12/05/moss-landing-cbc-1-1-20/

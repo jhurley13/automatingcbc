@@ -1,0 +1,16 @@
+Find Circle Data here:
+	https://www.arcgis.com/apps/View/index.html?appid=ac275eeb01434cedb1c5dcd0fd3fc7b4
+
+In Parameters, duplicate some file like CAMP-2022-Parameters.xlsx and rename with 4 char code
+- copy lat/long from arcgis info
+- Sector Names: TBD
+- Update the eBirdRegion (see cache/regions-US-subnational2.csv)
+
+Scan in checklist and put in Inputs/Parse: CAMD-2022-checklist.pdf
+Run Service Parse 
+
+-------------
+Need pipeline for processing email results
+
+-Extract: from email or Excel
+- validate
