@@ -165,6 +165,10 @@ def find_location_near_duplicates(checklist_meta: pd.DataFrame,
     # ToDo: naming of intermediate variables is a mess here, due to how it evolved
     # in meters
 
+    # Issue with CAMP-2022; revisit but comment out for now
+    # print('Skipping horseshoe check')
+    # return None
+
     unique_locids = sorted(list(set(checklist_meta.locId)))
     unique_locations = location_data[location_data.locId.isin(unique_locids)].copy()
     unique_locations = unique_locations.drop_duplicates(keep='first').reset_index()
@@ -197,8 +201,16 @@ def find_location_near_duplicates(checklist_meta: pd.DataFrame,
     rows = []
     for loc_a, loc_b in potential_dups:
         dist = potential_dups_df.loc[loc_a, loc_b]
-        # print(dist)
+
+        # Issue with CAMP-2022; revisit but comment out for now
+        # print('Skipping horseshoe check')
+        # print(dist > horseshoe_closeness_threshold)
+        # print(dist,horseshoe_closeness_threshold,potential_dups)
+        # continue ###
+
         if dist > horseshoe_closeness_threshold:
+        # Issue with CAMP-2022; revisit but comment out for now
+        # if (dist > horseshoe_closeness_threshold).any():
             continue
         loc1 = location_data[location_data.locId == loc_a]
         loc2 = location_data[location_data.locId == loc_b]
