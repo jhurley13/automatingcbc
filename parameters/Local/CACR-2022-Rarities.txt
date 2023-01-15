@@ -55,4 +55,5 @@ Yellow Warbler
 Palm Warbler
 Black-throated Gray Warbler
 Hermit Warbler
+Western Tanager
 Black-headed Grosbeak
