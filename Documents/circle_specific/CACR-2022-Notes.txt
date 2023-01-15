@@ -1,0 +1,67 @@
+
+Anonymous Birder
+
+2022-12-26 07:43	https://ebird.org/checklist/S124661546	Kirby Landfill	
+	Other participating eBirders: Chris Overington, Craige Edgerton, Garrett Lau, John Scharpen
+2022-12-26 08:11	https://ebird.org/checklist/S124658293	New Almaden Historic District--Bertram Rd.
+	Other participating eBirders: Christine Belanger, Marion Farber
+2022-12-26 08:23	https://ebird.org/checklist/S124662851	Almaden Quicksilver CP--Mockingbird Hill
+	https://ebird.org/checklist/S124662818
+	Other participating eBirders: Eve Meier
+
+Alaska Airlines 3397 from Portland (PDX) 8:45pm
+
+
+
+CoyoteCreekSouth-Party1
+CACR-2022-CoyoteCreekSouth-Party1.csv
+CACR-2022-CoyoteCreekSouth-Party2.csv
+CACR-2022-CoyoteCreekSouth-Party3.csv
+
+
+Bruce's Trip Report
+Bruce Barrett. coddler@gmail.com
+Marjorie Siegel. masiegel@aol.com
+Sylvia Zhang. sylvia.lin.zhang@gmail.com
+
+My checklists:
+https://ebird.org/checklist/S124643748
+https://ebird.org/checklist/S124654262
+https://ebird.org/checklist/S124662199
+
+----------
+The file CACR-EBird-Summary-13.xlsx contains detail for 01-13 (I think it’s an artifact of how Barry made the KML file), These are the reports for that sector:
+
+L3435985-S124654546-08:19-Aaron Sun	
+L5184520-S124654592-11:10-Aaron Sun
+
+It’s really hard to see on the map, but if you open CACR-CountCircleMap.html, it’s a long thin sector: Coyote Creek Parkway. The sector to the left of it is Coyote Valley, to the right is Coyote Ridge. You can see the “13” just to the left of the highyway interchange in the center of the screen shot.
+
+=> Change "13" in KML file to "Coyote Creek Parkway"
+
+Removed Marina Dickey from participating
+
+-----
+additional_subids: ['S124661546', 'S124658293', 'S124662851']
+HTTP Error 410: Gone
+https://ebird.org/checklist/S124661546
+https://ebird.org/checklist/S124658293
+https://ebird.org/checklist/S124662851
+https://ebird.org/checklist/S124662003
+
+https://ebird.org/checklist/S124661546
+
+L1454658-S124673716-16:50-Dani Christensen
+https://ebird.org/checklist/S124673716
+
+
+
+Other participating eBirders
+Chris Overington, Craige Edgerton, Garrett Lau, John Scharpen Kirby Landfill
+
+Removed
+Bonnie Mace
+Kim Blythe Higdon
+Oliver Wang
+Stephanie Levins
+

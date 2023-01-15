@@ -416,6 +416,13 @@ def write_final_checklist_spreadsheet(checklist, checklist_path: Path,
             fmt = col_info['format']
             worksheet.set_column(f'{xl_col_letter}:{xl_col_letter}', wid, fmt)
 
+        for col in non_standard_cols:
+            idx = list(checklist.columns).index(col)
+            xl_col_letter = excel_letters[idx]
+            wid = stripped_widths[col]
+            fmt = xlfmts[Xlformat.ACCOUNTING]
+            worksheet.set_column(f'{xl_col_letter}:{xl_col_letter}', wid, fmt)
+
         # https://xlsxwriter.readthedocs.io/worksheet.html#set_column
         for ix, col_info in colspec[colspec.hide].iterrows():
             xl_col_letter = col_info['xl_col_letter']
@@ -449,28 +456,39 @@ def write_final_checklist_spreadsheet(checklist, checklist_path: Path,
         # ***
         if additional_sheets is not None:
             for sheet_info in additional_sheets:
-                # print(sheet_info['sheet_name'])
-                df = sheet_info['data']
+                try:
+                    # print(sheet_info['sheet_name'])
+                    df = sheet_info['data']
+                    if df.empty: # e.g. Rarities
+                        continue
 
-                df.to_excel(writer, index=False, sheet_name=sheet_info['sheet_name'])
-                worksheet = writer.sheets[sheet_info['sheet_name']]
-                make_sheet_banded(worksheet, df)
+                    df.to_excel(writer, index=False, sheet_name=sheet_info['sheet_name'])
+                    worksheet = writer.sheets[sheet_info['sheet_name']]
+                    make_sheet_banded(worksheet, df)
 
-                center_cols = sheet_info['to_center']
-                for col, wid in sheet_info['widths'].items():
-                    col_index = list(df.columns).index(col)
-                    col_letter = excel_letters[col_index]
-                    fmt = xlfmts[Xlformat.CENTER] if col in center_cols else None
-                    worksheet.set_column(f'{col_letter}:{col_letter}', wid, fmt)
+                    center_cols = sheet_info['to_center']
+                    for col, wid in sheet_info['widths'].items():
+                        if not col in df.columns:
+                            continue
+                        col_index = list(df.columns).index(col)
+                        col_letter = excel_letters[col_index]
+                        fmt = xlfmts[Xlformat.CENTER] if col in center_cols else None
+                        worksheet.set_column(f'{col_letter}:{col_letter}', wid, fmt)
 
-                # Set the width, and other properties of a row
-                # row (int) – The worksheet row (zero indexed).
-                # height (float) – The row height.
-                # worksheet.set_row(0, 70, None, None)
-                worksheet.freeze_panes(1, 0)  # Freeze the first row.
-                # Set the header format
-                worksheet.write_row(0, 0, list(df.columns), xlfmts[Xlformat.HEADER])
-                # Write out cells
+                    # Set the width, and other properties of a row
+                    # row (int) – The worksheet row (zero indexed).
+                    # height (float) – The row height.
+                    # worksheet.set_row(0, 70, None, None)
+                    worksheet.freeze_panes(1, 0)  # Freeze the first row.
+                    # Set the header format
+                    worksheet.write_row(0, 0, list(df.columns), xlfmts[Xlformat.HEADER])
+                    # Write out cells
+                except Exception as ee:
+                    print(ee)
+                    print(df.columns)
+                    print(sheet_info['widths'].items())
+                    traceback.print_exc(file=sys.stdout)
+                    raise
 
 
 def expand_group_rows(checklist: pd.DataFrame) -> pd.DataFrame:
@@ -848,6 +866,8 @@ def sheet_info_for_rarities(df: pd.DataFrame) -> dict:
 
     columns_to_center = ['locId', 'subId', 'obsDt', 'Total', 'Observers',
                          'DistanceMi', 'durationHrs', 'Reason']
+    # Not all columns may be present
+    columns_to_center = list(set(df.columns).intersection(set(columns_to_center)))
 
     sheet_info = {
         'sheet_name': 'Rarities',

@@ -94,6 +94,12 @@ def create_checklist_meta(personal_checklists: pd.DataFrame,
     cm.sort_values(by=['location_group', 'locId', 'obsDt', 'groupId', 'Name'],
                    na_position='first', inplace=True)
 
+    if not 'comments' in cm.columns:
+        cm['comments'] = ''
+
+    if not 'DistanceMi' in cm.columns:
+        cm['DistanceMi'] = 0.0
+
     # Returned dataframe has these columns
     # ['locId', 'subId', 'Name', 'groupId', 'obsDt', 'Total',
     #        'effortDistanceKm', 'durationHrs', 'sharing', 'location_group', 'url']
@@ -159,6 +165,10 @@ def find_location_near_duplicates(checklist_meta: pd.DataFrame,
     # ToDo: naming of intermediate variables is a mess here, due to how it evolved
     # in meters
 
+    # Issue with CAMP-2022; revisit but comment out for now
+    # print('Skipping horseshoe check')
+    # return None
+
     unique_locids = sorted(list(set(checklist_meta.locId)))
     unique_locations = location_data[location_data.locId.isin(unique_locids)].copy()
     unique_locations = unique_locations.drop_duplicates(keep='first').reset_index()
@@ -191,8 +201,16 @@ def find_location_near_duplicates(checklist_meta: pd.DataFrame,
     rows = []
     for loc_a, loc_b in potential_dups:
         dist = potential_dups_df.loc[loc_a, loc_b]
-        # print(dist)
+
+        # Issue with CAMP-2022; revisit but comment out for now
+        # print('Skipping horseshoe check')
+        # print(dist > horseshoe_closeness_threshold)
+        # print(dist,horseshoe_closeness_threshold,potential_dups)
+        # continue ###
+
         if dist > horseshoe_closeness_threshold:
+        # Issue with CAMP-2022; revisit but comment out for now
+        # if (dist > horseshoe_closeness_threshold).any():
             continue
         loc1 = location_data[location_data.locId == loc_a]
         loc2 = location_data[location_data.locId == loc_b]
@@ -253,10 +271,14 @@ def construct_team_details(checklist_meta: pd.DataFrame,
                              copy=True, indicator=False,
                              validate=None)
     party_details.fillna({'durationHrs': 0}, inplace=True)
+    # DistanceMi not always present
     party_details['Distance (mi)'] = party_details['DistanceMi'].astype(float)
     party_details.rename(columns={'durationHrs': 'Duration (Hrs)',
                                   'obsDt': 'Date/Time'
                                   }, inplace=True)
+
+    if not 'comments' in party_details.columns:
+        party_details['comments'] = ''
 
     new_col_order = ['locId', 'subId', 'Total', 'Name', 'Observers', 'sharing', 'groupId',
                      'location_group', 'Date/Time', 'url', 'LocationName',

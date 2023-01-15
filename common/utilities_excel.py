@@ -114,6 +114,7 @@ class Xlformat(IntEnum):
     CI16 = 34
     CI17 = 35
     CANARY = 36
+    ACCOUNTING = 37
 
 
 XLCIFORMATBASE = int(Xlformat.CI01)
@@ -164,6 +165,8 @@ def add_workbook_formats(workbook: xlsxwriter.Workbook) -> Dict[Xlformat, Format
     addfmt(Xlformat.TAXON, {'num_format': '0', 'align': 'center'})
     addfmt(Xlformat.TIME_DIST, {'num_format': '0.00'})
     addfmt(Xlformat.TOTAL, {'bold': True, 'font_color': cn2h('indigo2'), 'num_format': '0.00'})
+    addfmt(Xlformat.ACCOUNTING, {'num_format': '_(* #,##0_);_(* (#,##0);_(* "-"_);_(@_)',
+                                 'align': 'center'})
 
     for ix, acolor in enumerate(excel_colorindices.values()):
         addfmt(Xlformat(XLCIFORMATBASE + ix), {'bg_color': f'{acolor}'})

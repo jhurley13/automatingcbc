@@ -1,0 +1,41 @@
+CAMP 2022 Notes
+
+- Duplicate /Users/john/xdevelopment/birding/automatingcbc/parameters/Local/CAMP-2022-Parameters.xlsx
+- Adjust dates etc.
+
+- Copy /Users/john/xdevelopment/birding/automatingcbc/Inputs/Parse/archive/CAMP-2020-checklist.pdf
+	as Inputs/Parse/CAMP-2022-checklist.pdf
+	
+cd /Users/john/xdevelopment/birding/automatingcbc
+cp Inputs/Parse/archive/CAMP-2020-checklist.pdf Inputs/Parse/CAMP-2022-checklist.pdf
+
+cp Inputs/Parse/archive/CAMP-2020-Exceptions.xlsx Inputs/Parse/CAMP-2022-Exceptions.xlsx
+cp Inputs/Parse/archive/CAMP-2020-Annotations.xlsx Inputs/Parse/CAMP-2022-Annotations.xlsx
+
+Change circle_prefix in Service-Parse to 'CAMP-2022-'
+Run Service-Parse notebook
+
+---
+Change circle_prefix in Service-Count to 'CAMP-2022-'
+Run Service-Count notebook
+
+
+Cooper Scollan went rogue so please take off his Seaside, Point Pinos, and
+Pebble Beach lists. He was only covering Monterey for the count.
+
+Keep
+S124733576	24	Cooper Scollan
+S124709140	12	Cooper Scollan (deleted)
+
+All
+L226227		S124733576	24	Cooper Scollan	2			L226227	2022-12-27 15:09	https://ebird.org/checklist/S124733576	Monterey--El Estero lake and/or San Carlos cemetery
+L352281		S124726949	10	Cooper Scollan	1			L352281	2022-12-27 11:51	https://ebird.org/checklist/S124726949	Pebble Beach--Bird & Seal Rocks, 17-Mile Dr.
+L374642		S124714457	15	Cooper Scollan	1			L374642	2022-12-27 11:10	https://ebird.org/checklist/S124714457	Pt. Pinos--general (sea & shore Coral to Jewell, Crespi Pond & cypresses)
+L3896041	S124707091	11	Cooper Scollan	2		G9366030	L3896041	2022-12-27 09:52	https://ebird.org/checklist/S124707091	Fisherman's Flats Casa
+L638811		S124709140	12	Cooper Scollan	1			L638811	2022-12-27 10:30	https://ebird.org/checklist/S124709140	Monterey Beach Hotel
+
+
+https://ebird.org/checklist/S124733576
+https://ebird.org/checklist/S124709140
+	OOPS! The checklist you requested has never existed or was deleted by its owner.
+additional_subids: ['S124733576', 'S124709140']

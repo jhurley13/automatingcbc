@@ -3,6 +3,7 @@ import pandas as pd
 import sys
 import traceback
 import re
+import numpy as np
 
 from utilities_cbc import read_excel_or_csv_path
 from common_paths import *
@@ -80,6 +81,7 @@ def merge_checklists(summary_base: Any,
     if isinstance(summary_base, Path):
         template = read_excel_or_csv_path(summary_base)
         # Create a single column master for summary
+        print(f'Using for summary_base: {summary_base}')
         summary_base = recombine_transformed_checklist(template, taxonomy)
     elif isinstance(summary_base, pd.DataFrame):
         summary_base = summary_base
@@ -113,6 +115,7 @@ def merge_checklists(summary_base: Any,
         summary_common_names = summary.CommonName.values
         summary_common_names_lower = [xs.lower() for xs in summary_common_names]
         if isinstance(fpath, Path):
+            print(f'Using {fpath}')
             checklist = read_excel_or_csv_path(fpath)
             # Only Excel files would be double column. CSV files could be hand made,
             # so clean them up. Double translation takes a long time, so avoid when
@@ -150,12 +153,14 @@ def merge_checklists(summary_base: Any,
                                               local_translation_context)
             blank_row = pd.Series([''] * len(summary.columns), index=summary.columns)
             rows_to_add = []
+            total_col = 'FrozenTotal' if 'FrozenTotal' in checklist.columns else 'Total'
+            # print(f'Using: {total_col} for total')
             for cn in names_to_add:
                 row = blank_row.copy()
                 row['CommonName'] = cn
                 if cn.lower() in species_to_add:
                     row['Rare'] = 'X'
-                total = checklist[checklist.cnlower == cn.lower()]['Total'].values[0]
+                total = checklist[checklist.cnlower == cn.lower()][total_col].values[0]
                 row[sector_col] = total
                 rows_to_add.append(row)
 
@@ -186,12 +191,14 @@ def merge_checklists(summary_base: Any,
         summary_common_names_lower = [xs.lower() for xs in summary.CommonName]
 
         summary['cnlower'] = summary_common_names_lower
+        total_col = 'FrozenTotal' if 'FrozenTotal' in checklist.columns else 'Total'
+        # print(f'Using: {total_col} for total')
         for ix, row in checklist.iterrows():
-            # if row.Total:
-            #     print(row)
-            total = row.FrozenTotal if 'FrozenTotal' in checklist.columns else row.Total
+            # if row[total_col]:
+            #     print(row.CommonName, row[total_col])
+
             mask = summary.cnlower == row.cnlower
-            summary.loc[mask, sector_col] = total
+            summary.loc[mask, sector_col] = row[total_col]
 
         summary.drop(['cnlower'], axis=1, inplace=True)
         #     if has_adult_col:
@@ -250,16 +257,42 @@ def merge_checklists(summary_base: Any,
 
     col_letters = excel_columns()
     #     team_start_col = col_letters[len(base_columns)]
-    std_columns = ['Group', 'CommonName', 'Rare', 'Total', 'Category', 'TaxonOrder',
+    std_columns = ['Group', 'CommonName', 'Rare', 'Total', 'FrozenTotal', 'Category', 'TaxonOrder',
                    'NACC_SORT_ORDER', 'ABA_SORT_ORDER']
     # Filter out any missing columns
     std_columns = [col for col in std_columns if col in summary.columns]
     # team_start_col = col_letters[index_of_first_subtotal_column(summary)]
-    sector_start_col = col_letters[len(std_columns)]
-    sector_end_col = col_letters[len(summary.columns) - 1]
+    sector_start_idx = len(std_columns) + 1
+    sector_end_idx = sector_start_idx + len(sector_cols) - 1
+
+    sector_start_col = col_letters[sector_start_idx]
+    sector_end_col = col_letters[sector_end_idx]
     total_formula = [f'=SUM(${sector_start_col}{ix}:${sector_end_col}{ix})' for ix in
                      range(2, summary.shape[0] + 2)]
     summary['Total'] = total_formula
+
+    global gsummary
+    gsummary = summary
+    # display(summary.iloc[:, sector_start_idx:sector_end_idx + 1])
+    # # print(df[pd.to_numeric(df.col, errors='coerce').isnull()])
+    #
+    # print(summary.iloc[:, sector_start_idx:sector_end_idx + 1].apply(lambda x: isinstance(x, str)))
+    #
+    #
+    # summary_total = summary.iloc[:, sector_start_idx:sector_end_idx + 1].replace('X', np.nan)
+    # summary_total = summary_total.apply(
+    #     pd.to_numeric(args=("errors='coerce',")).fillna(0).sum(axis=1).astype(int))
+
+    try:
+        summary_total = summary.iloc[:, sector_start_idx:sector_end_idx + 1].apply(
+            pd.to_numeric, errors='coerce').fillna(
+            0).sum(axis=1).astype(int)
+    except TypeError as te:
+        print(te)
+        traceback.print_exc(file=sys.stdout)
+        return summary
+
+    summary['FrozenTotal'] = summary_total
 
     # Add last row for Total and each Sector total
     totals_row = pd.Series([''] * len(summary.columns), index=summary.columns)
@@ -272,6 +305,8 @@ def merge_checklists(summary_base: Any,
     total_col_letter = col_letters[std_columns.index('Total')]
     total_formula = f'=SUM(${total_col_letter}2:${total_col_letter}{summary.shape[0] + 1})'
     totals_row.Total = total_formula
+    # print(total_formula) ####
+    # print(summary.shape)  ###
 
     # sector_cols = [xs for xs in summary.columns if xs.startswith('Sector')]
     sector_totals = summary[sector_cols].apply(pd.to_numeric).fillna(0).sum(axis=0).astype(int)
@@ -290,7 +325,7 @@ def merge_checklists(summary_base: Any,
     # print(sector_cols)
     # print(summary.columns)
 
-    new_col_order = [col for col in ['Group', 'CommonName', 'Rare', 'Total',
+    new_col_order = [col for col in ['Group', 'CommonName', 'Rare', 'Total', 'FrozenTotal',
                                      'Category', 'TaxonOrder',
                                      'NACC_SORT_ORDER', 'ABA_SORT_ORDER'] if col in summary.columns]
     new_col_order.extend(sector_cols)
@@ -298,7 +333,7 @@ def merge_checklists(summary_base: Any,
 
     # Don't hide 'Rare' since this will be frequently used in a filter
     cols_to_hide = ['D', 'Difficulty', 'Adult', 'Immature',
-                    'W-morph', 'B-Morph']
+                    'W-morph', 'B-Morph', 'FrozenTotal']
 
     if 'Adult/White' in summary.columns:
         if summary['Adult/White'].apply(pd.to_numeric).fillna(0).sum() == 0:

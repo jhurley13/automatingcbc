@@ -1,0 +1,96 @@
+Eve-CaliforniaTowhees.txt
+Count Day: April 18th, 2021
+
+create_ebird_summary produces the output she needs
+
+This is called by summarize_checklists, which is called from Service-Count.ipynb
+
+Total of 30 emails
+
+Processing (counted 30)
+16 have subids, so we should have 14 files to convert to CSV
+we only have 13, but...
+Mary Ann Robertson contains a PDF that contains 4 subids: S85814584,S85873084,S85873367,S85900565
+
+
+Carol Ann Krug Graves == Carol Ann & David's
+
+
+Addition CSV files should be added to inputs_count_path (no count prefix needed):
+	/Users/john/xdevelopment/birding/automatingcbc/Inputs/Count
+
+Amy Sanchez filed these 4 checklists
+{'S85821175', 'S85828673', 'S85829993', 'S85844206'}
+
+Annette Teng reported 21 taxa => in eBird
+
+Barbara Millin: 8 species (change phoebe) [unspecified sector]
+Jennifer Oliver: 38
+	added: Nutall's woodpecker 
+	Golden-crowned Sparrow
+	
+Jim & Kathryn - manually edited to 24 species
+Julie MacKinnon - manually edited to 24 species
+Ruth Salidvar - manual
+Sue Umeda - 17 species
+
+------------------------------------------------------------------------
+Processing California Towhees Michelle Nelson 1_2 [Subj: Michelle Nelson 1/2]
+Processing California Towhees Annette Teng 1_1 [Subj: Annette Teng]
+Processing California Towhees Brooke Miller 2_3 [Subj: Brooke Miller 2/3]
+   subids: ['S85823578']
+Processing California Towhee Julie MacKinnon 1_1 [Subj: Julie MacKinnon]
+Processing California Towhee Checklist Eve Meier 1_2 [Subj: Eve Meier 1/2]
+   subids: ['S85829490']
+Processing California Towhees Amy Sanchez 3_4 redo [Subj: Amy Sanchez 3/4]
+Processing California Towhees Sarah Chan 1 email - 3 lists [Subj: Sarah Chan 1 - 3]
+   subids: ['S85871437', 'S85830698']
+Processing California Towhee Checklist Eve Meier 1_1 [Subj: Eve Meier]
+   subids: ['S85832229']
+Processing California Towhees Massimo Bafetti 1 email_3 lists [Subj: Massimo Bafetti 1 email/3]
+   subids: ['S85834805', 'S85867520', 'S85867520']
+Processing California Towhee Checklist 3_4 Eve Meier [Subj: 3/4 Eve Meier]
+   subids: ['S85819933']
+Processing California Towhees Mary Ann Robertson 1_1 [Subj: Mary Ann Robertson]
+Processing california towhees LC Boros 1_1 [Subj: LC Boros]
+   subids: ['S85915868']
+Processing California Towhee Checklist Eve Meier 4_4 [Subj: Eve Meier 4/4]
+   subids: ['S85809438']
+Processing California Towhees Michelle Nelson 2_2 [Subj: Michelle Nelson 2/2]
+Processing California Towhees Julio Mulero and Renee Polizotto 1_1 [Subj: Julio Mulero and Renee Polizotto]
+   subids: ['S85823774', 'S85824712']
+Processing California Towhees brooke miller 3_3 [Subj: brooke miller 3/3]
+   subids: ['S85802217']
+Processing California Towhees Ruth Saldivar 1_1 [Subj: Ruth Saldivar]
+Processing California Towhees Barbara Coll 1_1 [Subj: Barbara Coll]
+   subids: ['S85800295', 'S85806791', 'S85830660', 'S85832836', 'S85840604', 'S85873019']
+Processing California Towhees Amy Sanchez 3_4 [Subj: Amy Sanchez 3/4]
+Processing California Towhee Brooke Miller 1_3 [Subj: Brooke Miller 1/3]
+   subids: ['S85917718']
+Processing California Towhees Amy Sanchez 1_4 [Subj: Amy Sanchez 1/4]
+Processing California Towhees Jennifer Oliver 1_1 [Subj: Jennifer Oliver]
+Processing California towhees Carol Ann & David's 1_1 [Subj: Carol Ann & David's]
+   subids: ['S85926951']
+Processing California Towhee Massimo List 4 [Subj: Massimo 4]
+   subids: ['S85815702', 'S85834805', 'S85867520', 'S85867520']
+Processing California Towhees Sue Umeda 1_1 [Subj: Sue Umeda]
+Processing California Towhees Amy Sanchez 4_4 [Subj: Amy Sanchez 4/4]
+Processing California Towhees Jim and Kathryn 1_1 [Subj: Jim and Kathryn]
+Processing California Towhees Barbara Millin 1_1 [Subj: Barbara Millin]
+Processing California Towhees Julie Amato 1_1 [Subj: Julie Amato]
+   subids: ['S85846381', 'S85848299', 'S85908942']
+Processing California Towhees eBird lists for Laura and Starr 1_1 [Subj: Laura and Starr]
+   subids: ['S85873764', 'S85873815', 'S85833295', 'S85854306']
+------------------------------------------------------------------------
+Processing automatingcbc/Inputs/Parse/CALT-Sue_Umeda.txt: 18
+Processing automatingcbc/Inputs/Parse/CALT-Ruth_Saldivar.txt: 13
+Processing automatingcbc/Inputs/Parse/CALT-Amy_Sanchez_3_4.txt: 16
+Processing automatingcbc/Inputs/Parse/CALT-Amy_Sanchez_1_4.txt: 19
+Processing automatingcbc/Inputs/Parse/CALT-Michelle_Nelson_2_2.txt: 19
+Processing automatingcbc/Inputs/Parse/CALT-Barbara_Millin.txt: 9
+Processing automatingcbc/Inputs/Parse/CALT-Jim_and_Kathryn.txt: 29
+Processing automatingcbc/Inputs/Parse/CALT-Jennifer_Oliver.txt: 40
+Processing automatingcbc/Inputs/Parse/CALT-Julie_MacKinnon.txt: 25
+Processing automatingcbc/Inputs/Parse/CALT-Annette_Teng.txt: 25
+Processing automatingcbc/Inputs/Parse/CALT-Michelle_Nelson_1_2.txt: 35
+Processing automatingcbc/Inputs/Parse/CALT-Amy_Sanchez_4_4.txt: 8
